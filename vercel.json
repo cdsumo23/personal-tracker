@@ -1,6 +1,6 @@
 {
   "installCommand": "npm install --include=dev",
-  "buildCommand": "npm run build --workspace=packages/shared && npm run build --workspace=apps/api",
+  "buildCommand": "npm run build --workspace=packages/shared && cd apps/api && npx prisma generate && npx tsc -p tsconfig.json && npx tsc-alias",
   "headers": [
     {
       "source": "/(.*)",

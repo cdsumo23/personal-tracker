@@ -332,7 +332,7 @@ const API_HOST = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api'
 
 function getAvatarUrl(profilePhoto?: string | null): string | undefined {
   if (!profilePhoto) return undefined;
-  if (profilePhoto.startsWith('http')) return profilePhoto;
+  if (profilePhoto.startsWith('http') || profilePhoto.startsWith('data:')) return profilePhoto;
   return `${API_HOST}${profilePhoto}`;
 }
 

@@ -186,8 +186,14 @@ export class AuthController {
         return;
       }
 
-      const relativePath = `/uploads/${req.user!.userId}/profiles/${req.file.filename}`;
-      const user = await authService.updateProfilePhoto(req.user!.userId, relativePath);
+      let photoPath: string;
+      if (req.file.buffer) {
+        const base64Data = req.file.buffer.toString('base64');
+        photoPath = `data:${req.file.mimetype};base64,${base64Data}`;
+      } else {
+        photoPath = `/uploads/${req.user!.userId}/profiles/${req.file.filename}`;
+      }
+      const user = await authService.updateProfilePhoto(req.user!.userId, photoPath);
 
       const { passwordHash: _, emailVerificationToken: __, passwordResetToken: ___, ...safeUser } = user;
       successResponse(res, safeUser, 'Profile photo updated successfully');

@@ -95,9 +95,10 @@ export const statementUpload = multer({
 /**
  * Upload middleware for profile photos.
  * Accepts: JPG, PNG, WebP. Max: 5MB.
+ * Uses memory storage to work seamlessly in serverless environments (Vercel).
  */
 export const profilePhotoUpload = multer({
-  storage: createStorage('profiles'),
+  storage: multer.memoryStorage(),
   fileFilter: imageFilter,
   limits: {
     fileSize: 5 * 1024 * 1024, // 5MB

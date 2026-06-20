@@ -3,6 +3,8 @@ import { cn } from '@/lib/utils';
 import { Upload, X, FileText, CheckCircle2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
+const API_HOST = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api').replace(/\/api$/, '');
+
 export interface FileUploadProps {
   onFileSelect: (file: File | undefined) => void;
   accept?: string;
@@ -27,6 +29,12 @@ export function FileUpload({
   const [isDragActive, setIsDragActive] = React.useState(false);
   const [preview, setPreview] = React.useState<string | null>(previewUrl || null);
   const fileInputRef = React.useRef<HTMLInputElement>(null);
+
+  const getFullPreviewUrl = (url: string | null) => {
+    if (!url) return null;
+    if (url.startsWith('http') || url.startsWith('data:') || url.startsWith('blob:')) return url;
+    return `${API_HOST}${url}`;
+  };
 
   React.useEffect(() => {
     if (previewUrl) {
@@ -126,7 +134,7 @@ export function FileUpload({
             <>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={preview}
+                src={getFullPreviewUrl(preview) || undefined}
                 alt="Avatar preview"
                 className="w-full h-full object-cover rounded-full"
               />
@@ -187,7 +195,7 @@ export function FileUpload({
           <div className="relative w-full h-[140px] flex items-center justify-center p-2">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={preview}
+              src={getFullPreviewUrl(preview) || undefined}
               alt="Uploaded file preview"
               className="max-w-full max-h-full rounded-xl object-contain"
             />

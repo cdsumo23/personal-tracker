@@ -7,9 +7,19 @@ export interface AvatarProps extends React.HTMLAttributes<HTMLDivElement> {
   size?: 'sm' | 'md' | 'lg';
 }
 
+const API_HOST = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000/api').replace(/\/api$/, '');
+
 export function Avatar({ className, src, name, size = 'md', ...props }: AvatarProps) {
   const [error, setError] = React.useState(false);
   const initials = getInitials(name);
+
+  const getFullSrc = () => {
+    if (!src) return undefined;
+    if (src.startsWith('http') || src.startsWith('data:')) return src;
+    return `${API_HOST}${src}`;
+  };
+
+  const fullSrc = getFullSrc();
 
   return (
     <div
@@ -24,10 +34,10 @@ export function Avatar({ className, src, name, size = 'md', ...props }: AvatarPr
       )}
       {...props}
     >
-      {src && !error ? (
+      {fullSrc && !error ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
-          src={src}
+          src={fullSrc}
           alt={name}
           onError={() => setError(true)}
           className="w-full h-full object-cover"

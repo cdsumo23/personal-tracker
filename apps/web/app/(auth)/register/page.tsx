@@ -20,7 +20,9 @@ const registerSchema = z.object({
     .string()
     .min(8, 'Password must be at least 8 characters')
     .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
-    .regex(/[0-9]/, 'Password must contain at least one number'),
+    .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
+    .regex(/[0-9]/, 'Password must contain at least one number')
+    .regex(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/, 'Password must contain at least one special character'),
   confirmPassword: z.string(),
   currency: z.string().min(1, 'Please select your currency'),
   terms: z.boolean().refine((v) => v === true, 'You must accept the terms and conditions'),
@@ -67,8 +69,15 @@ export default function RegisterPage() {
       setRegistered(true);
       toast.success('Account created! Please check your email to verify.');
     } catch (error: unknown) {
-      const err = error as { response?: { data?: { message?: string } } };
-      toast.error(err.response?.data?.message || 'Registration failed. Please try again.');
+      const err = error as { response?: { data?: { message?: string; errors?: Record<string, string> } } };
+      const fieldErrors = err.response?.data?.errors;
+      if (fieldErrors && Object.keys(fieldErrors).length > 0) {
+        // Show the first validation error so the user knows exactly what to fix
+        const firstError = Object.values(fieldErrors)[0];
+        toast.error(firstError);
+      } else {
+        toast.error(err.response?.data?.message || 'Registration failed. Please try again.');
+      }
     } finally {
       setIsLoading(false);
     }

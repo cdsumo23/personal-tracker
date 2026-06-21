@@ -36,7 +36,16 @@ export function usePushNotifications() {
 
     try {
       setPermission(Notification.permission);
-      const registration = await navigator.serviceWorker.ready;
+
+      // Timeout prevents infinite loading if the service worker never becomes ready
+      const timeoutPromise = new Promise<never>((_, reject) =>
+        setTimeout(() => reject(new Error('Service worker ready timeout')), 5000)
+      );
+
+      const registration = await Promise.race([
+        navigator.serviceWorker.ready,
+        timeoutPromise,
+      ]);
       const sub = await registration.pushManager.getSubscription();
       setIsSubscribed(!!sub);
     } catch (err) {

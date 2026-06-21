@@ -401,7 +401,15 @@ export default function ProfilePage() {
  </h3>
 
  <div className="space-y-4 max-w-md">
- {!push.isSupported ? (
+ {push.isLoading ? (
+ <div className="flex items-center justify-between p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/20 animate-pulse">
+ <div className="space-y-2">
+ <div className="h-4 w-32 bg-slate-200 dark:bg-slate-700 rounded" />
+ <div className="h-3 w-52 bg-slate-200 dark:bg-slate-700 rounded" />
+ </div>
+ <div className="h-8 w-20 bg-slate-200 dark:bg-slate-700 rounded-lg" />
+ </div>
+ ) : !push.isSupported ? (
  <div className="p-4 rounded-xl border border-red-500/10 bg-red-500/5 text-xs text-red-400">
  Push notifications are not supported on this device or browser. To use push notifications, please make sure you are using a secure context (HTTPS) and a modern mobile or desktop browser that supports service workers.
  </div>
@@ -422,7 +430,7 @@ export default function ProfilePage() {
  size="sm"
  variant={push.isSubscribed ? 'destructive' : 'default'}
  onClick={push.isSubscribed ? push.unsubscribe : push.subscribe}
- isLoading={push.isActionLoading || push.isLoading}
+ isLoading={push.isActionLoading}
  >
  {push.isSubscribed ? (
  <>

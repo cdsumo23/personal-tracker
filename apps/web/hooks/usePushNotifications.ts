@@ -30,6 +30,18 @@ export function usePushNotifications() {
       ? (registrations.find(r => r.active) || registrations[0])
       : null;
 
+    // If an existing registration is stuck (has no active worker, only installing/waiting),
+    // unregister it to clear the slate.
+    if (registration && !registration.active) {
+      console.warn('Stale service worker registration found without an active worker. Unregistering...');
+      try {
+        await registration.unregister();
+        registration = null;
+      } catch (err) {
+        console.error('Failed to unregister stale service worker:', err);
+      }
+    }
+
     // 2. If no active registration, try to manually register
     if (!registration) {
       console.log('No active service worker registration found. Registering sw.js manually...');
@@ -54,10 +66,19 @@ export function usePushNotifications() {
 
     console.log(`Service worker state is '${serviceWorker.state}'. Waiting for 'activated' state...`);
     return new Promise((resolve) => {
+      let resolved = false;
+
       const stateChangeListener = () => {
         if (serviceWorker.state === 'activated') {
           serviceWorker.removeEventListener('statechange', stateChangeListener);
           console.log('Service worker activated successfully.');
+          resolved = true;
+          resolve(registration!);
+        } else if (serviceWorker.state === 'redundant') {
+          serviceWorker.removeEventListener('statechange', stateChangeListener);
+          console.error('Service worker became redundant (failed to install). Unregistering...');
+          registration!.unregister().catch(console.error);
+          resolved = true;
           resolve(registration!);
         }
       };
@@ -65,9 +86,11 @@ export function usePushNotifications() {
       
       // Safety timeout: resolve after 4 seconds regardless so we don't block forever
       setTimeout(() => {
-        serviceWorker.removeEventListener('statechange', stateChangeListener);
-        console.warn('Timeout waiting for service worker activation. Resolving anyway.');
-        resolve(registration!);
+        if (!resolved) {
+          serviceWorker.removeEventListener('statechange', stateChangeListener);
+          console.warn('Timeout waiting for service worker activation. Resolving anyway.');
+          resolve(registration!);
+        }
       }, 4000);
     });
   }, []);

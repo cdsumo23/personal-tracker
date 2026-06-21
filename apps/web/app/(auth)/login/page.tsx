@@ -55,8 +55,8 @@ export default function LoginPage() {
         <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-primary-500 to-violet-600 mb-4 shadow-glow">
           <TrendingUp className="w-7 h-7 text-white" />
         </div>
-        <h1 className="text-2xl font-bold text-slate-100">Welcome back</h1>
-        <p className="text-slate-400 mt-1 text-sm">Sign in to your Smart Planner account</p>
+        <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100">Welcome back</h1>
+        <p className="text-slate-600 dark:text-slate-400 mt-1 text-sm">Sign in to your Smart Planner account</p>
       </motion.div>
 
       {/* Form */}
@@ -69,7 +69,7 @@ export default function LoginPage() {
       >
         {/* Email */}
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-1.5">Email address</label>
+          <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Email address</label>
           <div className="relative">
             <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
             <input
@@ -77,7 +77,7 @@ export default function LoginPage() {
               type="email"
               placeholder="you@example.com"
               autoComplete="email"
-              className="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-800 border border-slate-700 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200"
+              className="w-full pl-10 pr-4 py-3 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200"
             />
           </div>
           {errors.email && (
@@ -88,8 +88,8 @@ export default function LoginPage() {
         {/* Password */}
         <div>
           <div className="flex items-center justify-between mb-1.5">
-            <label className="block text-sm font-medium text-slate-300">Password</label>
-            <Link href="/forgot-password" className="text-xs text-primary-400 hover:text-primary-300 transition-colors">
+            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">Password</label>
+            <Link href="/forgot-password" className="text-xs text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors">
               Forgot password?
             </Link>
           </div>
@@ -100,7 +100,7 @@ export default function LoginPage() {
               type={showPassword ? 'text' : 'password'}
               placeholder="••••••••"
               autoComplete="current-password"
-              className="w-full pl-10 pr-12 py-3 rounded-xl bg-slate-800 border border-slate-700 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200"
+              className="w-full pl-10 pr-12 py-3 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200"
             />
             <button
               type="button"
@@ -121,9 +121,9 @@ export default function LoginPage() {
             {...register('rememberMe')}
             id="rememberMe"
             type="checkbox"
-            className="w-4 h-4 rounded border-slate-600 bg-slate-800 text-primary-500 focus:ring-primary-500 focus:ring-offset-slate-900 cursor-pointer"
+            className="w-4 h-4 rounded border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-primary-600 dark:text-primary-500 focus:ring-primary-500 focus:ring-offset-white dark:focus:ring-offset-slate-950 cursor-pointer"
           />
-          <label htmlFor="rememberMe" className="text-sm text-slate-400 cursor-pointer">
+          <label htmlFor="rememberMe" className="text-sm text-slate-600 dark:text-slate-400 cursor-pointer">
             Keep me signed in for 30 days
           </label>
         </div>
@@ -132,7 +132,7 @@ export default function LoginPage() {
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full flex items-center justify-center gap-2 py-3 px-6 rounded-xl bg-gradient-to-r from-primary-500 to-violet-600 text-white font-semibold text-sm hover:from-primary-600 hover:to-violet-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-slate-900 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-glow hover:shadow-glow transform hover:-translate-y-0.5 active:translate-y-0 min-h-[48px]"
+          className="w-full flex items-center justify-center gap-2 py-3 px-6 rounded-xl bg-gradient-to-r from-primary-500 to-violet-600 text-white font-semibold text-sm hover:from-primary-600 hover:to-violet-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-slate-950 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-glow hover:shadow-glow transform hover:-translate-y-0.5 active:translate-y-0 min-h-[48px]"
         >
           {isLoading ? (
             <>
@@ -152,9 +152,9 @@ export default function LoginPage() {
         animate={{ opacity: 1 }}
         transition={{ delay: 0.3 }}
       >
-        <p className="text-sm text-slate-400">
+        <p className="text-sm text-slate-600 dark:text-slate-400">
           Don&apos;t have an account?{' '}
-          <Link href="/register" className="text-primary-400 hover:text-primary-300 font-medium transition-colors">
+          <Link href="/register" className="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 font-medium transition-colors">
             Create one free →
           </Link>
         </p>
@@ -162,7 +162,7 @@ export default function LoginPage() {
 
       {/* Social proof */}
       <motion.div
-        className="pt-4 border-t border-slate-700/60"
+        className="pt-4 border-t border-slate-200 dark:border-slate-800"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.4 }}

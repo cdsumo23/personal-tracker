@@ -55,11 +55,11 @@ function VerifyEmailContent() {
 
       {status === 'verifying' && (
         <div className="space-y-4">
-          <div className="inline-flex items-center justify-center p-3 rounded-full bg-slate-800 text-primary-400">
+          <div className="inline-flex items-center justify-center p-3 rounded-full bg-white dark:bg-slate-800 text-primary-400">
             <Loader2 className="w-8 h-8 animate-spin" />
           </div>
-          <h1 className="text-xl font-semibold text-slate-100">Verifying your email</h1>
-          <p className="text-slate-400 text-sm max-w-sm mx-auto">
+          <h1 className="text-xl font-semibold text-slate-900 dark:text-slate-100">Verifying your email</h1>
+          <p className="text-slate-600 dark:text-slate-400 text-sm max-w-sm mx-auto">
             Please wait while we verify your email address. This will only take a moment.
           </p>
         </div>
@@ -75,8 +75,8 @@ function VerifyEmailContent() {
           >
             <CheckCircle className="w-10 h-10" />
           </motion.div>
-          <h1 className="text-2xl font-bold text-slate-100">Verification Successful</h1>
-          <p className="text-slate-400 text-sm max-w-sm mx-auto">
+          <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100">Verification Successful</h1>
+          <p className="text-slate-600 dark:text-slate-400 text-sm max-w-sm mx-auto">
             Thank you! Your email address has been verified successfully. You will be redirected to your dashboard in a few seconds.
           </p>
           <div className="pt-2">
@@ -97,15 +97,15 @@ function VerifyEmailContent() {
           >
             <XCircle className="w-10 h-10" />
           </motion.div>
-          <h1 className="text-2xl font-bold text-slate-100">Verification Failed</h1>
+          <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100">Verification Failed</h1>
           <p className="text-red-400 text-sm max-w-sm mx-auto">
             {errorMessage}
           </p>
-          <p className="text-slate-400 text-sm max-w-sm mx-auto">
+          <p className="text-slate-600 dark:text-slate-400 text-sm max-w-sm mx-auto">
             If the link is expired, please log in to request a new verification email.
           </p>
           <div className="pt-2 flex justify-center gap-3">
-            <Link href="/login" className="inline-flex items-center justify-center px-5 py-2.5 rounded-xl bg-slate-800 text-slate-200 border border-slate-700 font-medium text-sm hover:bg-slate-700 transition-colors">
+            <Link href="/login" className="inline-flex items-center justify-center px-5 py-2.5 rounded-xl bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 font-medium text-sm hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
               Back to Sign In
             </Link>
           </div>
@@ -119,10 +119,10 @@ export default function VerifyEmailPage() {
   return (
     <Suspense fallback={
       <div className="space-y-4 text-center">
-        <div className="inline-flex items-center justify-center p-3 rounded-full bg-slate-800 text-primary-400">
+        <div className="inline-flex items-center justify-center p-3 rounded-full bg-white dark:bg-slate-800 text-primary-400">
           <Loader2 className="w-8 h-8 animate-spin" />
         </div>
-        <h1 className="text-xl font-semibold text-slate-100">Loading...</h1>
+        <h1 className="text-xl font-semibold text-slate-900 dark:text-slate-100">Loading...</h1>
       </div>
     }>
       <VerifyEmailContent />

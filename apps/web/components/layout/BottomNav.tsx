@@ -23,7 +23,7 @@ export default function BottomNav() {
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-30 h-16 bg-slate-900/90 border-t border-slate-800/80 backdrop-blur-md flex items-center justify-around xl:hidden px-2 pb-safe">
+    <nav className="fixed bottom-0 left-0 right-0 z-30 h-16 bg-white/90 dark:bg-slate-900/90 border-t border-slate-200 dark:border-slate-800/80 backdrop-blur-md flex items-center justify-around xl:hidden px-2 pb-safe transition-colors duration-300">
       {mobileNavItems.map((item) => {
         const isActive = pathname === item.href;
         const Icon = item.icon;
@@ -35,8 +35,8 @@ export default function BottomNav() {
             className={cn(
               'flex flex-col items-center justify-center flex-1 h-full py-2 text-[10px] font-semibold select-none touch-target transition-colors',
               {
-                'text-primary-400': isActive,
-                'text-slate-400 hover:text-slate-300': !isActive,
+                'text-primary-600 dark:text-primary-400': isActive,
+                'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-300': !isActive,
               }
             )}
           >

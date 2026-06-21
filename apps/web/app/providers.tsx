@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Toaster } from 'react-hot-toast';
 import { useAuthStore } from '@/store/auth.store';
+import { useUiStore } from '@/store/ui.store';
 import { PwaInstallPrompt } from '@/components/layout/PwaInstallPrompt';
 
 const queryClient = new QueryClient({
@@ -21,6 +22,19 @@ const queryClient = new QueryClient({
   },
 });
 
+function ThemeInitializer() {
+  const theme = useUiStore((s) => s.theme);
+
+  useEffect(() => {
+    if (typeof document !== 'undefined') {
+      document.documentElement.classList.toggle('dark', theme === 'dark');
+      document.documentElement.classList.toggle('light', theme === 'light');
+    }
+  }, [theme]);
+
+  return null;
+}
+
 function AuthInitializer({ children }: { children: React.ReactNode }) {
   const initializeAuth = useAuthStore((s) => s.initializeAuth);
 
@@ -34,6 +48,7 @@ function AuthInitializer({ children }: { children: React.ReactNode }) {
 export default function Providers({ children }: { children: React.ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
+      <ThemeInitializer />
       <AuthInitializer>
         {children}
         <PwaInstallPrompt />

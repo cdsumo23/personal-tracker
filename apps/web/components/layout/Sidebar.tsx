@@ -54,7 +54,7 @@ export default function Sidebar() {
       {/* Sidebar container (Desktop: sidebar, Mobile: overlay drawer) */}
       <aside
         className={cn(
-          'fixed inset-y-0 left-0 z-40 flex flex-col w-64 bg-slate-900 border-r border-slate-800/80 transition-transform duration-300 xl:translate-x-0 xl:static xl:h-screen',
+          'fixed inset-y-0 left-0 z-40 flex flex-col w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800/80 transition-all duration-300 xl:translate-x-0 xl:static xl:h-screen',
           {
             'translate-x-0': isSidebarOpen,
             '-translate-x-full': !isSidebarOpen,
@@ -62,33 +62,33 @@ export default function Sidebar() {
         )}
       >
         {/* Brand Header */}
-        <div className="flex items-center justify-between px-6 h-16 border-b border-slate-800/80">
+        <div className="flex items-center justify-between px-6 h-16 border-b border-slate-200 dark:border-slate-800/80">
           <Link href="/dashboard" className="flex items-center gap-2.5">
             <div className="flex items-center justify-center w-8 h-8 rounded-xl bg-gradient-to-br from-primary-500 to-violet-600">
               <TrendingUp className="w-4 h-4 text-white" />
             </div>
-            <span className="font-bold text-slate-100 text-base">Smart Planner</span>
+            <span className="font-bold text-slate-800 dark:text-slate-100 text-base">Smart Planner</span>
           </Link>
           <button
             onClick={toggleSidebar}
-            className="p-1 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-slate-200 xl:hidden touch-target"
+            className="p-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 xl:hidden touch-target"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* User profile brief */}
-        <div className="p-4 border-b border-slate-800/80 flex items-center gap-3">
+        <div className="p-4 border-b border-slate-200 dark:border-slate-800/80 flex items-center gap-3">
           <Avatar
             name={`${user?.firstName || 'User'} ${user?.lastName || ''}`}
             src={user?.profilePhoto}
             size="md"
           />
           <div className="overflow-hidden">
-            <h4 className="text-sm font-bold text-slate-200 truncate">
+            <h4 className="text-sm font-bold text-slate-800 dark:text-slate-200 truncate">
               {user?.firstName} {user?.lastName}
             </h4>
-            <p className="text-xs text-slate-500 truncate">{user?.email}</p>
+            <p className="text-xs text-slate-400 dark:text-slate-500 truncate">{user?.email}</p>
           </div>
         </div>
 
@@ -107,12 +107,12 @@ export default function Sidebar() {
                 className={cn(
                   'flex items-center gap-3.5 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 select-none touch-target',
                   {
-                    'bg-primary-500/10 text-primary-400 border border-primary-500/10 shadow-glow': isActive,
-                    'text-slate-400 hover:text-slate-200 hover:bg-slate-800/40 border border-transparent': !isActive,
+                    'bg-primary-500/10 text-primary-600 dark:text-primary-400 border border-primary-500/10 shadow-glow': isActive,
+                    'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/40 border border-transparent': !isActive,
                   }
                 )}
               >
-                <Icon className={cn('w-5 h-5', { 'text-primary-400': isActive })} />
+                <Icon className={cn('w-5 h-5', { 'text-primary-600 dark:text-primary-400': isActive })} />
                 {item.label}
               </Link>
             );
@@ -120,18 +120,18 @@ export default function Sidebar() {
         </nav>
 
         {/* Footer actions */}
-        <div className="p-4 border-t border-slate-800/80">
+        <div className="p-4 border-t border-slate-200 dark:border-slate-800/80">
           <button
             onClick={() => logout()}
-            className="flex items-center gap-3.5 w-full px-4 py-3 rounded-xl text-sm font-medium text-red-400 hover:text-red-300 hover:bg-red-500/5 transition-all duration-200 select-none touch-target"
+            className="flex items-center gap-3.5 w-full px-4 py-3 rounded-xl text-sm font-medium text-red-500 dark:text-red-400 hover:text-red-650 dark:hover:text-red-300 hover:bg-red-500/5 transition-all duration-200 select-none touch-target"
           >
             <LogOut className="w-5 h-5" />
             Sign Out
           </button>
-          <div className="mt-4 text-[10px] text-slate-500 text-center select-none leading-relaxed">
+          <div className="mt-4 text-[10px] text-slate-400 dark:text-slate-500 text-center select-none leading-relaxed">
             Smart Planner v1.0.0
             <br />
-            Developed by <span className="text-slate-400 font-semibold">Charles D. Sumo</span>
+            Developed by <span className="text-slate-600 dark:text-slate-400 font-semibold">Charles D. Sumo</span>
           </div>
         </div>
       </aside>
@@ -140,7 +140,7 @@ export default function Sidebar() {
       {isSidebarOpen && (
         <div
           onClick={toggleSidebar}
-          className="fixed inset-0 z-30 bg-slate-950/60 backdrop-blur-xs xl:hidden"
+          className="fixed inset-0 z-30 bg-slate-950/40 dark:bg-slate-950/60 backdrop-blur-xs xl:hidden"
         />
       )}
     </>

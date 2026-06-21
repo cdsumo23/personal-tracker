@@ -51,7 +51,7 @@ export const viewport: Viewport = {
   maximumScale: 1,
   userScalable: false,
   themeColor: '#6366f1',
-  colorScheme: 'dark',
+  colorScheme: 'light dark',
 };
 
 export default function RootLayout({
@@ -60,7 +60,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -72,8 +72,32 @@ export default function RootLayout({
         <link rel="mask-icon" href="/icons/icon-192x192.png" color="#6366f1" />
         <meta name="msapplication-TileColor" content="#6366f1" />
         <meta name="msapplication-tap-highlight" content="no" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                const store = localStorage.getItem('ui-store');
+                if (store) {
+                  const parsed = JSON.parse(store);
+                  const theme = parsed?.state?.theme;
+                  if (theme === 'light') {
+                    document.documentElement.classList.remove('dark');
+                    document.documentElement.classList.add('light');
+                  } else {
+                    document.documentElement.classList.remove('light');
+                    document.documentElement.classList.add('dark');
+                  }
+                } else {
+                  document.documentElement.classList.add('dark');
+                }
+              } catch (e) {
+                document.documentElement.classList.add('dark');
+              }
+            `,
+          }}
+        />
       </head>
-      <body className={`${inter.variable} font-sans bg-slate-900 text-slate-100 antialiased`}>
+      <body className={`${inter.variable} font-sans bg-background text-foreground antialiased transition-colors duration-300`}>
         <Providers>{children}</Providers>
       </body>
     </html>

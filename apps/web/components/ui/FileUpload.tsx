@@ -165,7 +165,7 @@ export function FileUpload({
   return (
     <div className="w-full space-y-1.5">
       {label && (
-        <label className="block text-sm font-medium text-slate-300">
+        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">
           {label}
         </label>
       )}
@@ -176,9 +176,9 @@ export function FileUpload({
         onDragLeave={onDragLeave}
         onDrop={onDrop}
         className={cn(
-          'relative flex flex-col items-center justify-center w-full min-h-[140px] border-2 border-dashed rounded-2xl cursor-pointer bg-slate-800/40 hover:bg-slate-800/80 transition-all duration-200 border-slate-700',
+          'relative flex flex-col items-center justify-center w-full min-h-[140px] border-2 border-dashed rounded-2xl cursor-pointer bg-slate-50 dark:bg-slate-800/40 hover:bg-slate-100 dark:hover:bg-slate-800/80 transition-all duration-200 border-slate-300 dark:border-slate-700',
           {
-            'border-primary-500 bg-slate-800/80': isDragActive,
+            'border-primary-500 bg-slate-100 dark:bg-slate-800/80': isDragActive,
             'border-red-500/80 focus:ring-red-500/50': error,
           }
         )}
@@ -202,7 +202,7 @@ export function FileUpload({
             <button
               onClick={removeFile}
               type="button"
-              className="absolute top-2 right-2 p-1.5 rounded-full bg-slate-950/70 border border-slate-800 text-slate-300 hover:text-white transition-colors"
+              className="absolute top-2 right-2 p-1.5 rounded-full bg-slate-950/70 border border-slate-200 dark:border-slate-800 text-slate-300 hover:text-white transition-colors"
             >
               <X className="w-4 h-4" />
             </button>
@@ -214,7 +214,7 @@ export function FileUpload({
               <FileText className="w-10 h-10 text-primary-400" />
               <CheckCircle2 className="absolute -bottom-1 -right-1 w-4 h-4 text-emerald-500 fill-slate-900" />
             </div>
-            <p className="text-sm font-medium text-slate-200 max-w-[200px] truncate">
+            <p className="text-sm font-medium text-slate-800 dark:text-slate-200 max-w-[200px] truncate">
               {value.name}
             </p>
             <p className="text-xs text-slate-500">
@@ -223,7 +223,7 @@ export function FileUpload({
             <button
               onClick={removeFile}
               type="button"
-              className="mt-2 text-xs font-semibold text-red-400 hover:text-red-300 transition-colors"
+              className="mt-2 text-xs font-semibold text-red-550 dark:text-red-400 hover:text-red-650 dark:hover:text-red-300 transition-colors"
             >
               Remove file
             </button>
@@ -231,10 +231,10 @@ export function FileUpload({
         ) : (
           // Default State
           <div className="flex flex-col items-center justify-center p-6 text-center">
-            <div className="p-3 rounded-xl bg-slate-800 border border-slate-700 text-slate-400 mb-3">
+            <div className="p-3 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 mb-3">
               <Upload className="w-5 h-5" />
             </div>
-            <p className="text-sm font-medium text-slate-200">
+            <p className="text-sm font-medium text-slate-800 dark:text-slate-200">
               Click to upload or drag & drop
             </p>
             <p className="text-xs text-slate-500 mt-1">

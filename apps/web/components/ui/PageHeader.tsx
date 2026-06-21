@@ -26,9 +26,9 @@ export function PageHeader({
   return (
     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 select-none">
       <div className="space-y-1">
-        <h1 className="text-xl sm:text-2xl font-bold text-slate-100 tracking-tight">{title}</h1>
+        <h1 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-slate-100 tracking-tight">{title}</h1>
         {displayDescription && (
-          <p className="text-xs sm:text-sm text-slate-400">{displayDescription}</p>
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">{displayDescription}</p>
         )}
       </div>
       {action ? (

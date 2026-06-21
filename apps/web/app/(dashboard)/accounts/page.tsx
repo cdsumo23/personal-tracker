@@ -97,15 +97,15 @@ function AccountCard({
  <div className="relative">
  <button
  onClick={() => setShowMenu(!showMenu)}
- className="p-1.5 rounded-lg text-slate-500 hover:text-slate-600 dark:text-slate-300 hover:bg-slate-800/60 transition-all opacity-0 group-hover:opacity-100"
+ className="p-1.5 rounded-lg text-slate-500 hover:text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-all opacity-0 group-hover:opacity-100"
  >
  <MoreVertical className="w-4 h-4" />
  </button>
  {showMenu && (
- <div className="absolute right-0 top-8 z-10 bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-2xl overflow-hidden py-1 w-36">
+ <div className="absolute right-0 top-8 z-10 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-2xl overflow-hidden py-1 w-36">
  <button
  onClick={() => { setShowMenu(false); onEdit(account); }}
- className="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-slate-600 dark:text-slate-300 hover:bg-slate-800 hover:text-slate-900 dark:text-slate-100 transition-colors"
+ className="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-100 transition-colors"
  >
  <Pencil className="w-3.5 h-3.5" /> Edit
  </button>
@@ -122,7 +122,7 @@ function AccountCard({
 
  <div className="mt-4 pt-4 border-t border-slate-200 dark:border-slate-800/60">
  <p className="text-[10px] text-slate-500 uppercase font-bold tracking-wider mb-1">Balance</p>
- <p className={cn('text-2xl font-black tracking-tight', isNegative ? 'text-red-400' : 'text-slate-900 dark:text-slate-100')}>
+ <p className={cn('text-2xl font-black tracking-tight', isNegative ? 'text-red-600 dark:text-red-400' : 'text-slate-900 dark:text-slate-100')}>
  {formatCurrency(account.balance, account.currency)}
  </p>
  </div>
@@ -241,17 +241,17 @@ export default function AccountsPage() {
  <div className="grid grid-cols-3 gap-4">
  <Card className="text-center py-4">
  <p className="text-[10px] text-slate-500 uppercase font-bold tracking-wider">Net Balance</p>
- <p className={cn('text-xl font-extrabold mt-1', totalBalance >= 0 ? 'text-slate-900 dark:text-slate-100' : 'text-red-400')}>
+ <p className={cn('text-xl font-extrabold mt-1', totalBalance >= 0 ? 'text-slate-900 dark:text-slate-100' : 'text-red-600 dark:text-red-400')}>
  {format(totalBalance)}
  </p>
  </Card>
  <Card className="text-center py-4">
  <p className="text-[10px] text-slate-500 uppercase font-bold tracking-wider">Total Assets</p>
- <p className="text-xl font-extrabold text-emerald-400 mt-1">{format(totalAssets)}</p>
+ <p className="text-xl font-extrabold text-emerald-600 dark:text-emerald-400 mt-1">{format(totalAssets)}</p>
  </Card>
  <Card className="text-center py-4">
  <p className="text-[10px] text-slate-500 uppercase font-bold tracking-wider">Credit Debt</p>
- <p className="text-xl font-extrabold text-red-400 mt-1">{format(totalLiabilities)}</p>
+ <p className="text-xl font-extrabold text-red-600 dark:text-red-400 mt-1">{format(totalLiabilities)}</p>
  </Card>
  </div>
  )}
@@ -318,8 +318,8 @@ export default function AccountsPage() {
  className={cn(
  'flex flex-col items-center gap-1.5 p-3 rounded-xl border text-xs font-semibold transition-all duration-200',
  watch('type') === t.value
- ? 'border-primary-500 bg-primary-500/10 text-primary-400'
- : 'border-slate-200 dark:border-slate-800 bg-slate-800/30 text-slate-500 dark:text-slate-400 hover:border-slate-300 dark:border-slate-700 hover:text-slate-600 dark:text-slate-300'
+ ? 'border-primary-500 bg-primary-500/10 text-primary-600 dark:text-primary-400'
+ : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/30 text-slate-500 dark:text-slate-400 hover:border-slate-300 dark:hover:border-slate-700 hover:text-slate-600 dark:hover:text-slate-300'
  )}
  >
  <span style={{ color: t.color }}>{t.icon}</span>
@@ -344,7 +344,7 @@ export default function AccountsPage() {
  </label>
  <select
  {...register('currency')}
- className="w-full px-3 py-2.5 rounded-xl bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all cursor-pointer"
+ className="w-full px-3 py-2.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all cursor-pointer"
  >
  <option value="USD">🇺🇸 USD – US Dollar</option>
  <option value="EUR">🇪🇺 EUR – Euro</option>

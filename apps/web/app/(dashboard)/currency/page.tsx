@@ -66,7 +66,7 @@ function RateRow({
  'flex items-center gap-4 px-5 py-4 rounded-xl border transition-all duration-200',
  editing
  ? 'border-violet-500/50 bg-violet-500/5'
- : 'border-slate-200 dark:border-slate-800/60 bg-slate-900/40 hover:border-slate-300 dark:border-slate-700/60 hover:bg-slate-800/30'
+ : 'border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-800/40 hover:border-slate-300 dark:hover:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800/60'
  )}
  >
  {/* Flag + Currency */}
@@ -96,7 +96,7 @@ function RateRow({
  step="0.0001"
  min="0.0001"
  autoFocus
- className="w-40 px-3 py-1.5 rounded-lg bg-slate-800 border border-violet-500/60 text-slate-900 dark:text-slate-100 text-sm font-mono focus:outline-none focus:ring-1 focus:ring-violet-500"
+ className="w-40 px-3 py-1.5 rounded-lg bg-white dark:bg-slate-800 border border-violet-500/60 text-slate-900 dark:text-slate-100 text-sm font-mono focus:outline-none focus:ring-1 focus:ring-violet-500"
  />
  ) : (
  <span className="font-mono text-base font-bold text-slate-900 dark:text-slate-100">
@@ -120,14 +120,14 @@ function RateRow({
  <button
  onClick={handleSave}
  disabled={isSaving}
- className="p-2 rounded-lg bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 transition-colors disabled:opacity-50"
+ className="p-2 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500/20 transition-colors disabled:opacity-50"
  title="Save"
  >
  <Check className="w-4 h-4" />
  </button>
  <button
  onClick={handleCancel}
- className="p-2 rounded-lg bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:text-slate-200 hover:bg-slate-700 transition-colors"
+ className="p-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
  title="Cancel"
  >
  <X className="w-4 h-4" />
@@ -175,7 +175,7 @@ function AddRatePanel({ existingTargets, onSave, isSaving }: {
  return (
  <button
  onClick={() => setOpen(true)}
- className="w-full flex items-center justify-center gap-2 px-5 py-4 rounded-xl border border-dashed border-slate-300 dark:border-slate-700 text-slate-500 hover:text-violet-400 hover:border-violet-500/50 hover:bg-violet-500/5 transition-all duration-200 text-sm font-medium"
+ className="w-full flex items-center justify-center gap-2 px-5 py-4 rounded-xl border border-dashed border-slate-300 dark:border-slate-700 text-slate-500 hover:text-violet-500 dark:hover:text-violet-400 hover:border-violet-500/50 hover:bg-violet-500/5 transition-all duration-200 text-sm font-medium"
  >
  <Plus className="w-4 h-4" /> Add Custom Rate
  </button>
@@ -191,7 +191,7 @@ function AddRatePanel({ existingTargets, onSave, isSaving }: {
  value={base}
  maxLength={3}
  onChange={(e) => setBase(e.target.value.toUpperCase())}
- className="w-20 px-3 py-2 rounded-lg bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-sm font-mono uppercase focus:outline-none focus:border-violet-500"
+ className="w-20 px-3 py-2 rounded-lg bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 text-slate-900 dark:text-slate-100 text-sm font-mono uppercase focus:outline-none focus:border-violet-500"
  />
  </div>
  <div className="flex flex-col gap-1">
@@ -202,7 +202,7 @@ function AddRatePanel({ existingTargets, onSave, isSaving }: {
  value={target}
  maxLength={3}
  onChange={(e) => setTarget(e.target.value.toUpperCase())}
- className="w-28 px-3 py-2 rounded-lg bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-sm font-mono uppercase focus:outline-none focus:border-violet-500"
+ className="w-28 px-3 py-2 rounded-lg bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 text-slate-900 dark:text-slate-100 text-sm font-mono uppercase focus:outline-none focus:border-violet-500"
  />
  </div>
  <div className="flex flex-col gap-1 flex-1 min-w-[120px]">
@@ -214,7 +214,7 @@ function AddRatePanel({ existingTargets, onSave, isSaving }: {
  step="0.0001"
  min="0.0001"
  onChange={(e) => setRate(e.target.value)}
- className="w-full px-3 py-2 rounded-lg bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-sm font-mono focus:outline-none focus:border-violet-500"
+ className="w-full px-3 py-2 rounded-lg bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 text-slate-900 dark:text-slate-100 text-sm font-mono focus:outline-none focus:border-violet-500"
  />
  </div>
  <button
@@ -226,7 +226,7 @@ function AddRatePanel({ existingTargets, onSave, isSaving }: {
  </button>
  <button
  onClick={() => setOpen(false)}
- className="px-4 py-2 rounded-lg bg-slate-800 text-slate-500 dark:text-slate-400 text-sm font-semibold hover:text-slate-800 dark:text-slate-200 hover:bg-slate-700 transition-colors"
+ className="px-4 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 text-sm font-semibold hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
  >
  Cancel
  </button>
@@ -291,18 +291,18 @@ export default function CurrencyPage() {
  title="Exchange Rates"
  subtitle="Set and update rates used to convert account balances to your base currency"
  action={
- <div className="flex items-center gap-2 text-[11px] text-slate-500 bg-slate-900/60 border border-slate-200 dark:border-slate-800 px-3 py-2 rounded-lg">
- <Globe className="w-3.5 h-3.5 text-violet-400" />
- Base: <span className="text-violet-400 font-bold">USD</span>
+ <div className="flex items-center gap-2 text-[11px] text-slate-600 dark:text-slate-400 bg-slate-100 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 px-3 py-2 rounded-lg">
+ <Globe className="w-3.5 h-3.5 text-violet-500 dark:text-violet-400" />
+ Base: <span className="text-violet-600 dark:text-violet-400 font-bold">USD</span>
  </div>
  }
  />
 
  {/* Info banner */}
  <Card className="flex items-start gap-3 py-4 px-5 border-amber-500/30 bg-amber-500/5">
- <Info className="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5" />
- <div className="text-[13px] text-slate-500 dark:text-slate-400 leading-relaxed">
- All exchange rates are stored relative to <strong className="text-amber-400">1 USD</strong>. When
+ <Info className="w-4 h-4 text-amber-500 dark:text-amber-400 flex-shrink-0 mt-0.5" />
+ <div className="text-[13px] text-slate-600 dark:text-slate-400 leading-relaxed">
+ All exchange rates are stored relative to <strong className="text-amber-600 dark:text-amber-400">1 USD</strong>. When
  you have accounts in different currencies (e.g. USD and LRD), the system will automatically convert
  each account's balance into your <strong className="text-slate-800 dark:text-slate-200">profile base currency</strong> before
  computing totals, so your dashboard always shows accurate, unified figures.
@@ -312,7 +312,7 @@ export default function CurrencyPage() {
  {/* Rates List */}
  <Card className="p-0 overflow-hidden">
  {/* Header */}
- <div className="flex items-center justify-between px-5 py-4 border-b border-slate-200 dark:border-slate-800/60">
+ <div className="flex items-center justify-between px-5 py-4 border-b border-slate-200 dark:border-slate-700/60">
  <div>
  <h2 className="text-sm font-bold text-slate-900 dark:text-slate-100">Configured Rates</h2>
  <p className="text-[11px] text-slate-500 mt-0.5">{rates.length} rate{rates.length !== 1 ? 's' : ''} stored</p>
@@ -353,11 +353,11 @@ export default function CurrencyPage() {
  return (
  <div
  key={code}
- className="flex items-center gap-4 px-5 py-3 rounded-xl border border-dashed border-slate-200 dark:border-slate-800 opacity-50"
+ className="flex items-center gap-4 px-5 py-3 rounded-xl border border-dashed border-slate-200 dark:border-slate-700 opacity-50"
  >
  <span className="text-2xl">{meta.flag}</span>
  <div className="flex-1">
- <p className="text-sm font-bold text-slate-500 dark:text-slate-400">{code}</p>
+ <p className="text-sm font-bold text-slate-600 dark:text-slate-400">{code}</p>
  <p className="text-[11px] text-slate-600">{meta.name} — no rate set</p>
  </div>
  <button
@@ -431,7 +431,7 @@ function QuickConverter({ rates }: { rates: ExchangeRate[] }) {
  type="number"
  value={amount}
  onChange={(e) => setAmount(e.target.value)}
- className="w-32 px-3 py-2 rounded-lg bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-sm font-mono focus:outline-none focus:border-violet-500"
+ className="w-32 px-3 py-2 rounded-lg bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 text-slate-900 dark:text-slate-100 text-sm font-mono focus:outline-none focus:border-violet-500"
  />
  </div>
  <div className="flex flex-col gap-1">
@@ -439,7 +439,7 @@ function QuickConverter({ rates }: { rates: ExchangeRate[] }) {
  <select
  value={from}
  onChange={(e) => setFrom(e.target.value)}
- className="px-3 py-2 rounded-lg bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-sm focus:outline-none focus:border-violet-500"
+ className="px-3 py-2 rounded-lg bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 text-slate-900 dark:text-slate-100 text-sm focus:outline-none focus:border-violet-500"
  >
  {allCodes.map((c) => <option key={c} value={c}>{c}</option>)}
  </select>
@@ -449,7 +449,7 @@ function QuickConverter({ rates }: { rates: ExchangeRate[] }) {
  <select
  value={to}
  onChange={(e) => setTo(e.target.value)}
- className="px-3 py-2 rounded-lg bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-sm focus:outline-none focus:border-violet-500"
+ className="px-3 py-2 rounded-lg bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 text-slate-900 dark:text-slate-100 text-sm focus:outline-none focus:border-violet-500"
  >
  {allCodes.map((c) => <option key={c} value={c}>{c}</option>)}
  </select>
@@ -461,9 +461,9 @@ function QuickConverter({ rates }: { rates: ExchangeRate[] }) {
  Convert
  </button>
  {result !== null && (
- <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
+ <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20">
  <span className="text-[11px] text-slate-500">=</span>
- <span className="text-lg font-black text-emerald-400">
+ <span className="text-lg font-black text-emerald-600 dark:text-emerald-400">
  {result.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 4 })} {to}
  </span>
  </div>

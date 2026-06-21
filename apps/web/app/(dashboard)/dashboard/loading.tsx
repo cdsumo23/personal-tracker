@@ -14,7 +14,7 @@ export default function DashboardLoading() {
  {/* Stats row skeleton */}
  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
  {[1, 2, 3, 4].map((n) => (
- <Card key={n} className="p-5 border-slate-200 dark:border-slate-800 bg-slate-900/60 backdrop-blur-md flex items-center space-x-4 h-24">
+ <Card key={n} className="p-5 border-slate-200 dark:border-slate-200 dark:border-slate-800 bg-slate-900/60 backdrop-blur-md flex items-center space-x-4 h-24">
  <Skeleton className="w-12 h-12 rounded-xl shrink-0" />
  <div className="space-y-2 flex-1">
  <Skeleton className="h-3 w-16" />

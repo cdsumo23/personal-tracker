@@ -271,12 +271,12 @@ export default function DebtsPage() {
  {isLoading ? (
  <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
  {[1, 2, 3, 4].map((n) => (
- <Card key={n} className="h-28 animate-pulse bg-slate-50 dark:bg-slate-800/40 border border-slate-300 dark:border-slate-700" />
+ <Card key={n} className="h-28 animate-pulse bg-slate-100 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700" />
  ))}
  </div>
  ) : debts.length === 0 ? (
  <Card className="flex flex-col items-center justify-center p-12 text-center">
- <div className="p-4 rounded-full bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 mb-4">
+ <div className="p-4 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 mb-4">
  <ShieldAlert className="w-10 h-10" />
  </div>
  <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-200">No debts recorded yet</h3>
@@ -292,36 +292,36 @@ export default function DebtsPage() {
  {/* Summary Cards */}
  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
  <Card className="p-5 flex items-center space-x-4">
- <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400">
+ <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-600 dark:text-red-400">
  <TrendingDown className="w-5 h-5" />
  </div>
  <div>
  <p className="text-xs font-semibold text-slate-500">Total Debt Owed</p>
- <p className="text-xl font-extrabold text-slate-800 dark:text-slate-200">
+ <p className="text-xl font-extrabold text-slate-900 dark:text-slate-200">
  {formatCurrency(totalBalance, currency)}
  </p>
  </div>
  </Card>
 
  <Card className="p-5 flex items-center space-x-4">
- <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
+ <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400">
  <DollarSign className="w-5 h-5" />
  </div>
  <div>
  <p className="text-xs font-semibold text-slate-500">Monthly Min Payments</p>
- <p className="text-xl font-extrabold text-slate-800 dark:text-slate-200">
+ <p className="text-xl font-extrabold text-slate-900 dark:text-slate-200">
  {formatCurrency(totalMinPayments, currency)}
  </p>
  </div>
  </Card>
 
  <Card className="p-5 flex items-center space-x-4">
- <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400">
+ <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-600 dark:text-amber-400">
  <Calculator className="w-5 h-5" />
  </div>
  <div>
  <p className="text-xs font-semibold text-slate-500">Paid Progress</p>
- <p className="text-xl font-extrabold text-slate-800 dark:text-slate-200">
+ <p className="text-xl font-extrabold text-slate-900 dark:text-slate-200">
  {totalOriginal > 0
  ? `${Math.round(((totalOriginal - totalBalance) / totalOriginal) * 100)}%`
  : '0%'}
@@ -330,12 +330,12 @@ export default function DebtsPage() {
  </Card>
 
  <Card className="p-5 flex items-center space-x-4">
- <div className="p-3 rounded-xl bg-violet-500/10 border border-violet-500/20 text-violet-400">
+ <div className="p-3 rounded-xl bg-violet-500/10 border border-violet-500/20 text-violet-650 dark:text-violet-400">
  <ShieldAlert className="w-5 h-5" />
  </div>
  <div>
  <p className="text-xs font-semibold text-slate-500">Highest Interest</p>
- <p className="text-xl font-extrabold text-slate-800 dark:text-slate-200">
+ <p className="text-xl font-extrabold text-slate-900 dark:text-slate-200">
  {highestInterestDebt ? `${highestInterestDebt.interestRate}%` : '0%'}
  </p>
  </div>
@@ -344,8 +344,8 @@ export default function DebtsPage() {
 
  {/* Payoff strategy section */}
  <Card className="p-6">
- <h3 className="text-base font-bold text-slate-800 dark:text-slate-200 mb-4 flex items-center">
- <Calculator className="w-5 h-5 mr-2 text-primary-400" />
+ <h3 className="text-base font-bold text-slate-900 dark:text-slate-200 mb-4 flex items-center">
+ <Calculator className="w-5 h-5 mr-2 text-primary-500 dark:text-primary-400" />
  <span>Debt Payoff Strategy Planner</span>
  </h3>
  
@@ -361,7 +361,7 @@ export default function DebtsPage() {
  'py-2 px-3 rounded-xl border text-xs font-bold transition-all',
  strategy === 'avalanche'
  ? 'bg-primary-500 border-transparent text-white'
- : 'bg-slate-800 border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:text-slate-200'
+ : 'bg-white dark:bg-slate-800 border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
  )}
  >
  Avalanche (Highest Rate)
@@ -372,7 +372,7 @@ export default function DebtsPage() {
  'py-2 px-3 rounded-xl border text-xs font-bold transition-all',
  strategy === 'snowball'
  ? 'bg-primary-500 border-transparent text-white'
- : 'bg-slate-800 border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:text-slate-200'
+ : 'bg-white dark:bg-slate-800 border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
  )}
  >
  Snowball (Lowest Bal)
@@ -391,16 +391,16 @@ export default function DebtsPage() {
  />
  </div>
 
- <div className="bg-slate-950/40 p-4 rounded-xl border border-slate-100 dark:border-slate-850 flex items-center justify-between text-sm">
+ <div className="bg-slate-50 dark:bg-slate-950/40 p-4 rounded-xl border border-slate-200 dark:border-slate-805 flex items-center justify-between text-sm">
  <div>
  <p className="text-xs text-slate-500">Estimated Payoff Time</p>
- <p className="text-lg font-extrabold text-slate-800 dark:text-slate-200">
+ <p className="text-lg font-extrabold text-slate-900 dark:text-slate-200">
  {payoffPlanData?.months || '...'} Months
  </p>
  </div>
  <div>
  <p className="text-xs text-slate-500">Total Interest Paid</p>
- <p className="text-lg font-extrabold text-slate-800 dark:text-slate-200 text-amber-400">
+ <p className="text-lg font-extrabold text-amber-605 dark:text-amber-400">
  {payoffPlanData?.totalInterest
  ? formatCurrency(payoffPlanData.totalInterest, currency)
  : '...'}
@@ -430,10 +430,10 @@ export default function DebtsPage() {
  />
  <Tooltip
  contentStyle={{
- backgroundColor: '#0f172a',
- borderColor: '#334155',
+ backgroundColor: 'var(--bg-secondary)',
+ borderColor: 'var(--border-color)',
  borderRadius: '12px',
- color: '#f8fafc',
+ color: 'var(--text-primary)',
  fontSize: '12px',
  }}
  formatter={(val) => [formatCurrency(Number(val), currency), 'Balance']}
@@ -464,11 +464,11 @@ export default function DebtsPage() {
  <Card
  key={debt.id}
  onClick={() => handleDetailsOpen(debt)}
- className="p-6 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:border-slate-700/80 bg-slate-900/60 backdrop-blur-md cursor-pointer hover:translate-y-[-2px] transition-all duration-200 flex flex-col group"
+ className="p-6 border-slate-200 dark:border-slate-800 hover:border-slate-350 dark:hover:border-slate-700/80 bg-white/60 dark:bg-slate-900/60 backdrop-blur-md cursor-pointer hover:translate-y-[-2px] transition-all duration-200 flex flex-col group"
  >
  <div className="flex justify-between items-start mb-3">
  <div>
- <h3 className="text-base font-bold text-slate-900 dark:text-slate-100 group-hover:text-primary-400 transition-colors">
+ <h3 className="text-base font-bold text-slate-900 dark:text-slate-100 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
  {debt.name}
  </h3>
  <p className="text-xs text-slate-500">{debt.lender}</p>
@@ -482,40 +482,40 @@ export default function DebtsPage() {
  <div>
  <div className="flex justify-between text-xs mb-1">
  <span className="text-slate-500 dark:text-slate-400">Current Balance</span>
- <span className="font-semibold text-slate-600 dark:text-slate-300">
+ <span className="font-semibold text-slate-705 dark:text-slate-300">
  {formatCurrency(debt.currentBalance, currency)}
  </span>
  </div>
  {/* Progress Bar */}
- <div className="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
+ <div className="w-full bg-slate-200 dark:bg-slate-800 rounded-full h-1.5 overflow-hidden">
  <div
  className="bg-red-500 h-full rounded-full transition-all duration-300"
  style={{ width: `${100 - progressPct}%` }}
  />
  </div>
- <div className="flex justify-between text-[10px] text-slate-500 mt-1">
+ <div className="flex justify-between text-[10px] text-slate-505 mt-1">
  <span>{progressPct}% Paid Off</span>
  <span>Original: {formatCurrency(debt.originalAmount, currency)}</span>
  </div>
  </div>
 
- <div className="pt-2 flex items-center justify-between text-xs border-t border-slate-100 dark:border-slate-850">
+ <div className="pt-2 flex items-center justify-between text-xs border-t border-slate-200 dark:border-slate-800">
  <div>
- <span className="text-slate-500">Min Payment: </span>
- <span className="font-bold text-slate-600 dark:text-slate-300">
+ <span className="text-slate-500 font-medium">Min Payment: </span>
+ <span className="font-bold text-slate-705 dark:text-slate-300">
  {formatCurrency(debt.minimumPayment, currency)}
  </span>
  </div>
  <div className="flex space-x-2">
  <button
  onClick={(e) => handleEditOpen(debt, e)}
- className="p-1 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:text-slate-200 transition-colors"
+ className="p-1 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition-colors"
  >
  <Edit2 className="w-3.5 h-3.5" />
  </button>
  <button
  onClick={(e) => handleDelete(debt.id, e)}
- className="p-1 text-slate-500 dark:text-slate-400 hover:text-red-400 transition-colors"
+ className="p-1 text-slate-500 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 transition-colors"
  >
  <Trash2 className="w-3.5 h-3.5" />
  </button>
@@ -735,22 +735,22 @@ export default function DebtsPage() {
  <div className="space-y-6 pt-2">
  <div className="grid grid-cols-2 gap-4 text-xs">
  <div className="p-3 bg-slate-50 dark:bg-slate-800/40 rounded-xl border border-slate-200 dark:border-slate-800">
- <span className="text-slate-500 block">Lender</span>
- <span className="font-semibold text-slate-800 dark:text-slate-200">{activeDebtDetails.lender}</span>
+ <span className="text-slate-550 block">Lender</span>
+ <span className="font-semibold text-slate-900 dark:text-slate-200">{activeDebtDetails.lender}</span>
  </div>
  <div className="p-3 bg-slate-50 dark:bg-slate-800/40 rounded-xl border border-slate-200 dark:border-slate-800">
- <span className="text-slate-500 block">Interest Rate</span>
- <span className="font-semibold text-slate-800 dark:text-slate-200">{activeDebtDetails.interestRate}% APR</span>
+ <span className="text-slate-550 block">Interest Rate</span>
+ <span className="font-semibold text-slate-900 dark:text-slate-200">{activeDebtDetails.interestRate}% APR</span>
  </div>
  <div className="p-3 bg-slate-50 dark:bg-slate-800/40 rounded-xl border border-slate-200 dark:border-slate-800">
- <span className="text-slate-500 block">Current Balance</span>
- <span className="font-bold text-red-400">
+ <span className="text-slate-550 block">Current Balance</span>
+ <span className="font-bold text-red-600 dark:text-red-400">
  {formatCurrency(activeDebtDetails.currentBalance, currency)}
  </span>
  </div>
  <div className="p-3 bg-slate-50 dark:bg-slate-800/40 rounded-xl border border-slate-200 dark:border-slate-800">
- <span className="text-slate-500 block">Min Payment</span>
- <span className="font-semibold text-slate-800 dark:text-slate-200">
+ <span className="text-slate-550 block">Min Payment</span>
+ <span className="font-semibold text-slate-900 dark:text-slate-200">
  {formatCurrency(activeDebtDetails.minimumPayment, currency)}/mo
  </span>
  </div>
@@ -758,18 +758,18 @@ export default function DebtsPage() {
 
  {/* Payments History log */}
  <div className="space-y-3">
- <h4 className="text-sm font-semibold text-slate-800 dark:text-slate-200">Payment History</h4>
- <div className="max-h-48 overflow-y-auto space-y-2 divide-y divide-slate-850 scrollbar-thin scrollbar-thumb-slate-800">
+ <h4 className="text-sm font-semibold text-slate-900 dark:text-slate-200">Payment History</h4>
+ <div className="max-h-48 overflow-y-auto space-y-2 divide-y divide-slate-200 dark:divide-slate-800 scrollbar-thin scrollbar-thumb-slate-800">
  {!activeDebtDetails.payments || activeDebtDetails.payments.length === 0 ? (
- <p className="text-xs text-slate-500 text-center py-4">No payments recorded yet.</p>
+ <p className="text-xs text-slate-505 text-center py-4">No payments recorded yet.</p>
  ) : (
  activeDebtDetails.payments.map((p: any) => (
  <div key={p.id} className="flex justify-between py-2 items-center text-xs">
  <div>
- <p className="font-semibold text-slate-800 dark:text-slate-200">{p.note || 'Payment'}</p>
- <p className="text-slate-500 text-[10px]">{formatDate(p.date, 'MMM dd, yyyy')}</p>
+ <p className="font-semibold text-slate-900 dark:text-slate-200">{p.note || 'Payment'}</p>
+ <p className="text-slate-505 text-[10px]">{formatDate(p.date, 'MMM dd, yyyy')}</p>
  </div>
- <span className="font-bold text-emerald-400">
+ <span className="font-bold text-emerald-600 dark:text-emerald-400">
  -{formatCurrency(Number(p.amount), currency)}
  </span>
  </div>
@@ -781,7 +781,7 @@ export default function DebtsPage() {
  <div className="flex justify-between pt-4 border-t border-slate-200 dark:border-slate-800 text-xs">
  <button
  onClick={(e) => handleDelete(activeDebtDetails.id, e)}
- className="flex items-center text-red-400 hover:text-red-300 font-semibold transition-colors"
+ className="flex items-center text-red-600 hover:text-red-750 dark:text-red-400 dark:hover:text-red-300 font-semibold transition-colors"
  >
  <Trash2 className="w-4 h-4 mr-1" /> Delete Debt
  </button>

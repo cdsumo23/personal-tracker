@@ -3,16 +3,16 @@ import { cn } from '@/lib/utils';
 import { ChevronDown } from 'lucide-react';
 
 export interface SelectOption {
-  value: string;
-  label: string;
-  icon?: React.ReactNode;
+ value: string;
+ label: string;
+ icon?: React.ReactNode;
 }
 
 export interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
-  label?: string;
-  error?: string;
-  icon?: React.ReactNode;
-  options: SelectOption[];
+ label?: string;
+ error?: string;
+ icon?: React.ReactNode;
+ options: SelectOption[];
 }
 
 export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
@@ -26,7 +26,7 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
         )}
         <div className="relative">
           {icon && (
-            <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">
+            <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400 pointer-events-none">
               {icon}
             </div>
           )}
@@ -50,7 +50,7 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
               </option>
             ))}
           </select>
-          <div className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">
+          <div className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 dark:text-slate-400 pointer-events-none">
             <ChevronDown className="w-4 h-4" />
           </div>
         </div>

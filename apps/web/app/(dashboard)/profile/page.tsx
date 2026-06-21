@@ -187,7 +187,7 @@ export default function ProfilePage() {
  className={`flex items-center space-x-2.5 w-full py-2.5 px-4 rounded-xl text-xs font-bold transition-all ${
  activeTab === 'info'
  ? 'bg-primary-500 text-white'
- : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:text-slate-200 hover:bg-slate-50 dark:bg-slate-800/40'
+ : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/40'
  }`}
  >
  <User className="w-4 h-4" />
@@ -198,7 +198,7 @@ export default function ProfilePage() {
  className={`flex items-center space-x-2.5 w-full py-2.5 px-4 rounded-xl text-xs font-bold transition-all ${
  activeTab === 'security'
  ? 'bg-primary-500 text-white'
- : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:text-slate-200 hover:bg-slate-50 dark:bg-slate-800/40'
+ : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/40'
  }`}
  >
  <Shield className="w-4 h-4" />
@@ -209,7 +209,7 @@ export default function ProfilePage() {
  className={`flex items-center space-x-2.5 w-full py-2.5 px-4 rounded-xl text-xs font-bold transition-all ${
  activeTab === 'preferences'
  ? 'bg-primary-500 text-white'
- : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:text-slate-200 hover:bg-slate-50 dark:bg-slate-800/40'
+ : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/40'
  }`}
  >
  <Sliders className="w-4 h-4" />
@@ -220,14 +220,14 @@ export default function ProfilePage() {
  className={`flex items-center space-x-2.5 w-full py-2.5 px-4 rounded-xl text-xs font-bold transition-all ${
  activeTab === 'data'
  ? 'bg-primary-500 text-white'
- : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:text-slate-200 hover:bg-slate-50 dark:bg-slate-800/40'
+ : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/40'
  }`}
  >
  <Database className="w-4 h-4" />
  <span>Data Operations</span>
  </button>
 
- <div className="pt-4 border-t border-slate-100 dark:border-slate-850">
+ <div className="pt-4 border-t border-slate-100 dark:border-slate-700">
  <button
  onClick={() => logout()}
  className="flex items-center space-x-2.5 w-full py-2.5 px-4 rounded-xl text-xs font-bold text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-all"
@@ -247,7 +247,7 @@ export default function ProfilePage() {
  Personal Details
  </h3>
 
- <div className="flex flex-col sm:flex-row items-center gap-6 pb-4 border-b border-slate-100 dark:border-slate-850">
+ <div className="flex flex-col sm:flex-row items-center gap-6 pb-4 border-b border-slate-100 dark:border-slate-700">
  <div className="w-32 shrink-0">
  <FileUpload
  onFileSelect={setAvatarFile}
@@ -347,7 +347,7 @@ export default function ProfilePage() {
  />
  </div>
 
- <div className="flex justify-end pt-4 border-t border-slate-100 dark:border-slate-850">
+ <div className="flex justify-end pt-4 border-t border-slate-100 dark:border-slate-700">
  <Button type="submit" isLoading={isChangingPassword}>
  Update Password
  </Button>

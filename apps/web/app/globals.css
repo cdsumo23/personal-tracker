@@ -246,7 +246,7 @@
   /* Gradient border */
   .gradient-border {
     position: relative;
-    background: #1e293b;
+    background: var(--bg-secondary);
     border-radius: 1rem;
   }
 
@@ -284,8 +284,8 @@
   }
 
   /* Income/Expense colors */
-  .income-text { @apply text-emerald-400; }
-  .expense-text { @apply text-red-400; }
+  .income-text { @apply text-emerald-600 dark:text-emerald-400; }
+  .expense-text { @apply text-red-600 dark:text-red-400; }
 
   /* Card grid */
   .card-grid {
@@ -294,11 +294,11 @@
 
   /* Stat value */
   .stat-value {
-    @apply text-2xl font-bold text-slate-100 tabular-nums;
+    @apply text-2xl font-bold text-slate-900 dark:text-slate-100 tabular-nums;
   }
 
   .stat-label {
-    @apply text-xs font-medium text-slate-400 uppercase tracking-wider;
+    @apply text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider;
   }
 
   /* Page container */
@@ -341,7 +341,7 @@
 
   /* Progress bar */
   .progress-bar {
-    @apply h-2 rounded-full bg-slate-700 overflow-hidden;
+    @apply h-2 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden;
   }
 
   .progress-fill {
@@ -350,7 +350,7 @@
 
   /* Divider */
   .divider {
-    @apply w-full h-px bg-slate-700/60 my-4;
+    @apply w-full h-px bg-slate-200 dark:bg-slate-700/60 my-4;
   }
 }
 
@@ -403,26 +403,26 @@
 }
 
 /* ========================================
-   RECHARTS DARK THEME
+   RECHARTS THEME (adapts to light/dark)
    ======================================== */
 .recharts-cartesian-axis-tick-value {
-  fill: #94a3b8 !important;
+  fill: var(--text-secondary) !important;
   font-size: 12px;
 }
 
 .recharts-cartesian-grid line {
-  stroke: #334155 !important;
+  stroke: var(--border-color) !important;
 }
 
 .recharts-tooltip-wrapper .recharts-default-tooltip {
-  background-color: #1e293b !important;
-  border: 1px solid #334155 !important;
+  background-color: var(--bg-secondary) !important;
+  border: 1px solid var(--border-color) !important;
   border-radius: 8px !important;
-  color: #f1f5f9 !important;
+  color: var(--text-primary) !important;
 }
 
 .recharts-legend-item-text {
-  color: #94a3b8 !important;
+  color: var(--text-secondary) !important;
 }
 
 /* ========================================
@@ -438,7 +438,7 @@
   --rdp-background-color: rgba(99, 102, 241, 0.1);
   --rdp-outline: 2px solid #6366f1;
   --rdp-outline-selected: 2px solid #4f46e5;
-  color: #f1f5f9;
+  color: var(--text-primary);
   margin: 0;
 }
 

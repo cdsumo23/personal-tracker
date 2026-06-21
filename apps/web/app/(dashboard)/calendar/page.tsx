@@ -112,68 +112,68 @@ export default function CalendarPage() {
  {/* Calendar Card */}
  <Card className="lg:col-span-2 p-6 flex justify-center">
  <div className="w-full max-w-md">
- <DayPicker
- mode="single"
- selected={selectedDay}
- onSelect={setSelectedDay}
- month={currentMonth}
- onMonthChange={setCurrentMonth}
- className="mx-auto"
- modifiers={modifiers}
- modifiersStyles={modifiersStyles}
- classNames={{
- months: 'w-full',
- month: 'space-y-4 w-full',
- caption: 'flex justify-between pt-1 relative items-center px-4 mb-4',
- caption_label: 'text-base font-bold text-slate-900 dark:text-slate-100',
- nav: 'flex items-center space-x-1',
- nav_button: cn(
- 'h-8 w-8 bg-slate-800/80 border border-slate-300 dark:border-slate-700 p-0 opacity-80 hover:opacity-100 text-slate-800 dark:text-slate-200 rounded-xl flex items-center justify-center transition-colors'
- ),
- table: 'w-full border-collapse space-y-1',
- head_row: 'flex justify-between w-full border-b border-slate-200 dark:border-slate-800 pb-2',
- head_cell: 'text-slate-500 rounded-md w-10 font-medium text-[0.85rem] text-center flex-1',
- row: 'flex w-full mt-2 justify-between',
- cell: 'h-10 w-10 text-center text-sm p-0 relative flex-1 flex items-center justify-center',
- day: cn(
- 'h-10 w-10 p-0 font-normal text-slate-350 rounded-xl hover:bg-slate-800 hover:text-slate-900 dark:text-slate-100 focus:outline-none transition-colors flex items-center justify-center'
- ),
- day_selected:
- 'bg-primary-500 text-white hover:bg-primary-600 focus:bg-primary-500 focus:text-white',
- day_today: 'bg-slate-800 text-slate-900 dark:text-slate-100 font-extrabold ring-1 ring-slate-700',
- day_outside: 'text-slate-700 opacity-20',
- day_disabled: 'text-slate-800 opacity-20 cursor-not-allowed',
- day_hidden: 'invisible',
- }}
- />
- {/* Color key guide */}
- <div className="mt-6 pt-4 border-t border-slate-100 dark:border-slate-850 flex flex-wrap gap-4 justify-center text-[10px] text-slate-500 dark:text-slate-400">
- <div className="flex items-center space-x-1">
- <span className="h-1.5 w-4 rounded-full bg-emerald-500" />
- <span>Income</span>
- </div>
- <div className="flex items-center space-x-1">
- <span className="h-1.5 w-4 rounded-full bg-red-500" />
- <span>Expense</span>
- </div>
- <div className="flex items-center space-x-1">
- <span className="h-1.5 w-4 rounded-full bg-amber-500" />
- <span>Bills</span>
- </div>
- <div className="flex items-center space-x-1">
- <span className="h-1.5 w-4 rounded-full bg-violet-500" />
- <span>Goals</span>
- </div>
- </div>
+          <DayPicker
+            mode="single"
+            selected={selectedDay}
+            onSelect={setSelectedDay}
+            month={currentMonth}
+            onMonthChange={setCurrentMonth}
+            className="mx-auto"
+            modifiers={modifiers}
+            modifiersStyles={modifiersStyles}
+            classNames={{
+              months: 'w-full',
+              month: 'space-y-4 w-full',
+              caption: 'flex justify-between pt-1 relative items-center px-4 mb-4',
+              caption_label: 'text-base font-bold text-slate-900 dark:text-slate-100',
+              nav: 'flex items-center space-x-1',
+              nav_button: cn(
+                'h-8 w-8 bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 p-0 opacity-80 hover:opacity-100 text-slate-800 dark:text-slate-200 rounded-xl flex items-center justify-center transition-colors'
+              ),
+              table: 'w-full border-collapse space-y-1',
+              head_row: 'flex justify-between w-full border-b border-slate-200 dark:border-slate-800 pb-2',
+              head_cell: 'text-slate-500 rounded-md w-10 font-medium text-[0.85rem] text-center flex-1',
+              row: 'flex w-full mt-2 justify-between',
+              cell: 'h-10 w-10 text-center text-sm p-0 relative flex-1 flex items-center justify-center',
+              day: cn(
+                'h-10 w-10 p-0 font-normal text-slate-600 dark:text-slate-350 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800/60 text-slate-800 dark:text-slate-100 focus:outline-none transition-colors flex items-center justify-center'
+              ),
+              day_selected:
+                'bg-primary-500 text-white hover:bg-primary-600 focus:bg-primary-500 focus:text-white',
+              day_today: 'bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-extrabold ring-1 ring-slate-200 dark:ring-slate-700',
+              day_outside: 'text-slate-400 dark:text-slate-600 opacity-40',
+              day_disabled: 'text-slate-400 dark:text-slate-700 opacity-20 cursor-not-allowed',
+              day_hidden: 'invisible',
+            }}
+          />
+        {/* Color key guide */}
+        <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800 flex flex-wrap gap-4 justify-center text-[10px] text-slate-500 dark:text-slate-400">
+          <div className="flex items-center space-x-1">
+            <span className="h-1.5 w-4 rounded-full bg-emerald-550" />
+            <span>Income</span>
+          </div>
+          <div className="flex items-center space-x-1">
+            <span className="h-1.5 w-4 rounded-full bg-red-500" />
+            <span>Expense</span>
+          </div>
+          <div className="flex items-center space-x-1">
+            <span className="h-1.5 w-4 rounded-full bg-amber-500" />
+            <span>Bills</span>
+          </div>
+          <div className="flex items-center space-x-1">
+            <span className="h-1.5 w-4 rounded-full bg-violet-500" />
+            <span>Goals</span>
+          </div>
+        </div>
  </div>
  </Card>
 
- {/* Day Details Card */}
- <Card className="p-6 flex flex-col h-[420px]">
- <h3 className="text-sm font-bold text-slate-800 dark:text-slate-200 border-b border-slate-200 dark:border-slate-800 pb-3 flex items-center mb-4">
- <CalendarIcon className="w-4 h-4 mr-2 text-primary-400" />
- <span>Schedule for {selectedDay ? format(selectedDay, 'MMMM dd, yyyy') : 'Selected Day'}</span>
- </h3>
+  {/* Day Details Card */}
+  <Card className="p-6 flex flex-col h-[420px]">
+    <h3 className="text-sm font-bold text-slate-900 dark:text-slate-200 border-b border-slate-200 dark:border-slate-800 pb-3 flex items-center mb-4">
+      <CalendarIcon className="w-4 h-4 mr-2 text-primary-500 dark:text-primary-400" />
+      <span>Schedule for {selectedDay ? format(selectedDay, 'MMMM dd, yyyy') : 'Selected Day'}</span>
+    </h3>
 
  <div className="flex-1 overflow-y-auto space-y-3 pr-1 scrollbar-thin scrollbar-thumb-slate-850">
  {isLoading ? (
@@ -184,48 +184,48 @@ export default function CalendarPage() {
  <p className="text-xs">No transactions, bills, or savings events logged on this date.</p>
  </div>
  ) : (
- activeDayEvents.map((evt) => (
- <div
- key={evt.id}
- className="p-3.5 rounded-xl border border-slate-100 dark:border-slate-850 bg-slate-50 dark:bg-slate-950/20 flex items-center justify-between"
- >
- <div className="space-y-1 min-w-0 pr-4">
- <p className="text-xs font-bold text-slate-800 dark:text-slate-200 truncate">{evt.title}</p>
- <div className="flex items-center space-x-2">
- <Badge
- variant={
- evt.type === 'income'
- ? 'success'
- : evt.type === 'expense'
- ? 'danger'
- : evt.type === 'bill'
- ? 'warning'
- : 'outline'
- }
- className="text-[9px] uppercase tracking-wider scale-90"
- >
- {evt.type}
- </Badge>
- <span className="text-[10px] text-slate-500 truncate">{evt.details}</span>
- </div>
- </div>
- <span
- className={cn(
- 'text-xs font-extrabold whitespace-nowrap',
- evt.type === 'income'
- ? 'text-emerald-400'
- : evt.type === 'expense'
- ? 'text-red-400'
- : evt.type === 'bill'
- ? 'text-amber-400'
- : 'text-violet-400'
- )}
- >
- {evt.type === 'income' ? '+' : evt.type === 'expense' ? '-' : ''}
- {formatCurrency(evt.amount, currency)}
- </span>
- </div>
- ))
+        activeDayEvents.map((evt) => (
+          <div
+            key={evt.id}
+            className="p-3.5 rounded-xl border border-slate-150 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/20 flex items-center justify-between"
+          >
+            <div className="space-y-1 min-w-0 pr-4">
+              <p className="text-xs font-bold text-slate-900 dark:text-slate-200 truncate">{evt.title}</p>
+              <div className="flex items-center space-x-2">
+                <Badge
+                  variant={
+                    evt.type === 'income'
+                      ? 'success'
+                      : evt.type === 'expense'
+                      ? 'danger'
+                      : evt.type === 'bill'
+                      ? 'warning'
+                      : 'outline'
+                  }
+                  className="text-[9px] uppercase tracking-wider scale-90"
+                >
+                  {evt.type}
+                </Badge>
+                <span className="text-[10px] text-slate-500 truncate">{evt.details}</span>
+              </div>
+            </div>
+            <span
+              className={cn(
+                'text-xs font-extrabold whitespace-nowrap',
+                evt.type === 'income'
+                  ? 'text-emerald-600 dark:text-emerald-400'
+                  : evt.type === 'expense'
+                  ? 'text-red-600 dark:text-red-400'
+                  : evt.type === 'bill'
+                  ? 'text-amber-600 dark:text-amber-400'
+                  : 'text-violet-650 dark:text-violet-400'
+              )}
+            >
+              {evt.type === 'income' ? '+' : evt.type === 'expense' ? '-' : ''}
+              {formatCurrency(evt.amount, currency)}
+            </span>
+          </div>
+        ))
  )}
  </div>
  </Card>

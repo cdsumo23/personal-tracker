@@ -77,13 +77,13 @@ function BudgetCard({
  <div className="relative">
  <button
  onClick={() => setShowMenu(!showMenu)}
- className="p-1.5 rounded-lg text-slate-500 hover:text-slate-600 dark:text-slate-300 hover:bg-slate-800/60 opacity-0 group-hover:opacity-100 transition-all"
+ className="p-1.5 rounded-lg text-slate-500 hover:text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/60 opacity-0 group-hover:opacity-100 transition-all"
  >
  <MoreVertical className="w-4 h-4" />
  </button>
  {showMenu && (
- <div className="absolute right-0 top-8 z-10 bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-2xl overflow-hidden py-1 w-32">
- <button onClick={() => { setShowMenu(false); onEdit(budget); }} className="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-slate-600 dark:text-slate-300 hover:bg-slate-800">
+ <div className="absolute right-0 top-8 z-10 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-2xl overflow-hidden py-1 w-32">
+ <button onClick={() => { setShowMenu(false); onEdit(budget); }} className="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800">
  <Pencil className="w-3.5 h-3.5" /> Edit
  </button>
  <button onClick={() => { setShowMenu(false); onDelete(budget.id, budget.name); }} className="w-full flex items-center gap-2.5 px-3 py-2 text-xs text-red-400 hover:bg-red-500/10">
@@ -108,7 +108,7 @@ function BudgetCard({
  <p className={cn('text-[10px] font-bold', status.text)}>{status.label}</p>
  </div>
  </div>
- <div className="h-2 bg-slate-800/80 rounded-full overflow-hidden">
+ <div className="h-2 bg-slate-200 dark:bg-slate-800/80 rounded-full overflow-hidden">
  <div
  className={cn('h-full rounded-full transition-all duration-700', status.fill)}
  style={{ width: `${Math.min(pct, 100)}%` }}
@@ -128,11 +128,11 @@ function BudgetCard({
  <span className="flex items-center gap-1">
  {catFmt(cat.spent)} / {catFmt(cat.allocated)}
  {cat.currency && cat.currency !== 'USD' && (
- <span className="bg-slate-700/60 text-slate-500 dark:text-slate-400 rounded px-1 py-0.5 text-[9px] font-bold">{cat.currency}</span>
+ <span className="bg-slate-200 dark:bg-slate-700/60 text-slate-500 dark:text-slate-400 rounded px-1 py-0.5 text-[9px] font-bold">{cat.currency}</span>
  )}
  </span>
  </div>
- <div className="h-1.5 bg-slate-800/80 rounded-full overflow-hidden">
+ <div className="h-1.5 bg-slate-200 dark:bg-slate-800/80 rounded-full overflow-hidden">
  <div
  className="h-full rounded-full"
  style={{ width: `${Math.min(cat.percentage, 100)}%`, backgroundColor: cat.color }}
@@ -238,7 +238,7 @@ export default function BudgetsPage() {
 
  {budgets.filter((b) => b.isActive).length > 0 && (
  <Card className="flex items-center gap-4 py-4">
- <div className="p-3 rounded-2xl bg-primary-500/10 text-primary-400 flex-shrink-0">
+ <div className="p-3 rounded-2xl bg-primary-500/10 text-primary-600 dark:text-primary-400 flex-shrink-0">
  <PieChart className="w-5 h-5" />
  </div>
  <div>
@@ -295,8 +295,8 @@ export default function BudgetsPage() {
  <button key={p} type="button" onClick={() => { reset({ ...watch(), period: p }); }}
  className={cn('py-2 rounded-xl border text-xs font-bold transition-all',
  watch('period') === p
- ? 'border-primary-500 bg-primary-500/10 text-primary-400'
- : 'border-slate-200 dark:border-slate-800 bg-slate-800/30 text-slate-500 dark:text-slate-400 hover:border-slate-300 dark:border-slate-700')}>
+ ? 'border-primary-500 bg-primary-500/10 text-primary-600 dark:text-primary-400'
+ : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/30 text-slate-500 dark:text-slate-400 hover:border-slate-300 dark:hover:border-slate-700')}>
  {p.charAt(0) + p.slice(1).toLowerCase()}
  </button>
  ))}
@@ -312,17 +312,17 @@ export default function BudgetsPage() {
  <div className="flex items-center justify-between mb-3">
  <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Category Allocations</label>
  <button type="button" onClick={() => append({ categoryId: '', amount: 0, currency: 'USD' })}
- className="flex items-center gap-1 text-xs font-bold text-primary-400 hover:text-primary-300">
+ className="flex items-center gap-1 text-xs font-bold text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300">
  <Plus className="w-3.5 h-3.5" /> Add Category
  </button>
  </div>
  <div className="space-y-3 max-h-60 overflow-y-auto pr-1">
  {fields.map((field, index) => (
- <div key={field.id} className="space-y-2 p-3 bg-slate-800/30 border border-slate-300 dark:border-slate-700/40 rounded-xl">
+ <div key={field.id} className="space-y-2 p-3 bg-slate-50 dark:bg-slate-800/30 border border-slate-300 dark:border-slate-700/40 rounded-xl">
  {/* Category select — full width */}
  <select
  {...register(`categories.${index}.categoryId`)}
- className="w-full bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded-xl px-3 py-2 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-1 focus:ring-primary-500"
+ className="w-full bg-slate-50 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded-xl px-3 py-2 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-1 focus:ring-primary-500"
  >
  <option value="">Select category</option>
  {(categoriesData || []).filter((c: any) => c.type === 'EXPENSE').map((c: any) => (
@@ -338,7 +338,7 @@ export default function BudgetsPage() {
  />
  <select
  {...register(`categories.${index}.currency`)}
- className="w-20 bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded-xl px-2 py-2 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-1 focus:ring-primary-500"
+ className="w-20 bg-slate-50 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded-xl px-2 py-2 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-1 focus:ring-primary-500"
  >
  {CURRENCIES.map((cur) => (
  <option key={cur} value={cur}>{cur}</option>

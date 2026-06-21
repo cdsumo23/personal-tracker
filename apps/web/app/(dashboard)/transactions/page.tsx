@@ -42,77 +42,77 @@ const transactionSchema = z.object({
 type TransactionFormData = z.infer<typeof transactionSchema>;
 
 const TYPE_STYLES: Record<TransactionType, { label: string; color: string; icon: React.ReactNode; badge: string }> = {
- INCOME: { label: 'Income', color: 'text-emerald-400', icon: <ArrowUpRight className="w-3.5 h-3.5" />, badge: 'success' },
- EXPENSE: { label: 'Expense', color: 'text-rose-400', icon: <ArrowDownRight className="w-3.5 h-3.5" />, badge: 'danger' },
- TRANSFER: { label: 'Transfer', color: 'text-blue-400', icon: <ArrowLeftRight className="w-3.5 h-3.5" />, badge: 'info' },
+  INCOME: { label: 'Income', color: 'text-emerald-600 dark:text-emerald-400', icon: <ArrowUpRight className="w-3.5 h-3.5" />, badge: 'success' },
+  EXPENSE: { label: 'Expense', color: 'text-rose-600 dark:text-rose-400', icon: <ArrowDownRight className="w-3.5 h-3.5" />, badge: 'danger' },
+  TRANSFER: { label: 'Transfer', color: 'text-blue-600 dark:text-blue-400', icon: <ArrowLeftRight className="w-3.5 h-3.5" />, badge: 'info' },
 };
 
 function TransactionRow({
- tx, format, onEdit, onDelete, onDuplicate,
+  tx, format, onEdit, onDelete, onDuplicate,
 }: {
- tx: Transaction;
- format: (n: number) => string;
- onEdit: (t: Transaction) => void;
- onDelete: (id: string, desc: string) => void;
- onDuplicate: (id: string) => void;
+  tx: Transaction;
+  format: (n: number) => string;
+  onEdit: (t: Transaction) => void;
+  onDelete: (id: string, desc: string) => void;
+  onDuplicate: (id: string) => void;
 }) {
- const { color, icon, badge } = TYPE_STYLES[tx.type] || TYPE_STYLES.EXPENSE;
+  const { color, icon, badge } = TYPE_STYLES[tx.type] || TYPE_STYLES.EXPENSE;
 
- return (
- <div className="flex items-center gap-4 py-3.5 border-b border-slate-200 dark:border-slate-800/50 last:border-0 hover:bg-slate-800/20 px-2 rounded-xl transition-colors group">
- <div className={cn('p-2 rounded-xl flex-shrink-0 bg-slate-800/60', color)}>{icon}</div>
+  return (
+    <div className="flex items-center gap-4 py-3.5 border-b border-slate-200 dark:border-slate-800/50 last:border-0 hover:bg-slate-50 dark:hover:bg-slate-800/20 px-2 rounded-xl transition-colors group">
+      <div className={cn('p-2 rounded-xl flex-shrink-0 bg-slate-50 dark:bg-slate-800/60', color)}>{icon}</div>
 
- <div className="flex-1 min-w-0">
- <p className="text-sm font-semibold text-slate-800 dark:text-slate-200 truncate">{tx.description}</p>
- <div className="flex items-center gap-2 flex-wrap mt-0.5">
- <span className="text-[10px] text-slate-500 font-medium">{formatDate(tx.date)}</span>
- {tx.category && (
- <span className="text-[10px] text-slate-500 dark:text-slate-400 font-semibold">{tx.category.name}</span>
- )}
- {tx.account && (
- <span className="text-[10px] text-slate-500">{tx.account.name}</span>
- )}
- {tx.isRecurring && (
- <span className="text-[10px] text-primary-400 font-bold">↻ Recurring</span>
- )}
- {tx.tags && tx.tags.length > 0 && tx.tags.map((tag) => (
- <span key={tag} className="text-[10px] bg-slate-800/80 text-slate-500 dark:text-slate-400 px-1.5 py-0.5 rounded-full">{tag}</span>
- ))}
- </div>
- </div>
+      <div className="flex-1 min-w-0">
+        <p className="text-sm font-semibold text-slate-900 dark:text-slate-200 truncate">{tx.description}</p>
+        <div className="flex items-center gap-2 flex-wrap mt-0.5">
+          <span className="text-[10px] text-slate-500 font-medium">{formatDate(tx.date)}</span>
+          {tx.category && (
+            <span className="text-[10px] text-slate-600 dark:text-slate-400 font-semibold">{tx.category.name}</span>
+          )}
+          {tx.account && (
+            <span className="text-[10px] text-slate-500">{tx.account.name}</span>
+          )}
+          {tx.isRecurring && (
+            <span className="text-[10px] text-primary-600 dark:text-primary-400 font-bold">↻ Recurring</span>
+          )}
+          {tx.tags && tx.tags.length > 0 && tx.tags.map((tag) => (
+            <span key={tag} className="text-[10px] bg-slate-100 dark:bg-slate-800/80 text-slate-650 dark:text-slate-400 px-1.5 py-0.5 rounded-full">{tag}</span>
+          ))}
+        </div>
+      </div>
 
- <div className="text-right flex-shrink-0 mr-2">
- <p className={cn('text-sm font-extrabold tracking-tight', color)}>
- {tx.type === 'INCOME' ? '+' : tx.type === 'TRANSFER' ? '↔' : '-'}{format(tx.amount)}
- </p>
- </div>
+      <div className="text-right flex-shrink-0 mr-2">
+        <p className={cn('text-sm font-extrabold tracking-tight', color)}>
+          {tx.type === 'INCOME' ? '+' : tx.type === 'TRANSFER' ? '↔' : '-'}{format(tx.amount)}
+        </p>
+      </div>
 
- {/* Row Actions - shown on hover */}
- <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0">
- <button
- onClick={() => onDuplicate(tx.id)}
- className="p-1.5 rounded-lg text-slate-500 hover:text-slate-600 dark:text-slate-300 hover:bg-slate-800/60 transition-colors"
- title="Duplicate"
- >
- <Copy className="w-3.5 h-3.5" />
- </button>
- <button
- onClick={() => onEdit(tx)}
- className="p-1.5 rounded-lg text-slate-500 hover:text-slate-600 dark:text-slate-300 hover:bg-slate-800/60 transition-colors"
- title="Edit"
- >
- <Pencil className="w-3.5 h-3.5" />
- </button>
- <button
- onClick={() => onDelete(tx.id, tx.description)}
- className="p-1.5 rounded-lg text-slate-500 hover:text-red-400 hover:bg-red-500/10 transition-colors"
- title="Delete"
- >
- <Trash2 className="w-3.5 h-3.5" />
- </button>
- </div>
- </div>
- );
+      {/* Row Actions - shown on hover */}
+      <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0">
+        <button
+          onClick={() => onDuplicate(tx.id)}
+          className="p-1.5 rounded-lg text-slate-500 hover:text-slate-800 dark:text-slate-405 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/60 transition-colors"
+          title="Duplicate"
+        >
+          <Copy className="w-3.5 h-3.5" />
+        </button>
+        <button
+          onClick={() => onEdit(tx)}
+          className="p-1.5 rounded-lg text-slate-500 hover:text-slate-800 dark:text-slate-405 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/60 transition-colors"
+          title="Edit"
+        >
+          <Pencil className="w-3.5 h-3.5" />
+        </button>
+        <button
+          onClick={() => onDelete(tx.id, tx.description)}
+          className="p-1.5 rounded-lg text-slate-500 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-500/10 transition-colors"
+          title="Delete"
+        >
+          <Trash2 className="w-3.5 h-3.5" />
+        </button>
+      </div>
+    </div>
+  );
 }
 
 export default function TransactionsPage() {
@@ -245,16 +245,16 @@ export default function TransactionsPage() {
  {/* Search + Filter Bar */}
  <Card className="flex flex-col sm:flex-row gap-4">
  <div className="relative flex-1">
- <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+ <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
  <input
  type="text"
  placeholder="Search transactions..."
  value={search}
  onChange={(e) => { setSearch(e.target.value); setPage(1); }}
- className="w-full pl-9 pr-3 py-2.5 bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded-xl text-sm text-slate-800 dark:text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-primary-500 transition-all"
+ className="w-full pl-9 pr-3 py-2.5 bg-white dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded-xl text-sm text-slate-900 dark:text-slate-200 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-primary-500 transition-all"
  />
  {search && (
- <button onClick={() => setSearch('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-600 dark:text-slate-300">
+ <button onClick={() => setSearch('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300">
  <X className="w-3.5 h-3.5" />
  </button>
  )}
@@ -269,7 +269,7 @@ export default function TransactionsPage() {
  'px-3 py-2 rounded-xl text-xs font-bold transition-all duration-200',
  typeFilter === t
  ? 'bg-primary-600 text-white'
- : 'bg-slate-800/60 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:text-slate-200 hover:bg-slate-800'
+ : 'bg-slate-100 dark:bg-slate-800/60 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-800'
  )}
  >
  {t === '' ? 'All' : t === 'INCOME' ? 'Income' : t === 'EXPENSE' ? 'Expense' : 'Transfer'}
@@ -282,13 +282,13 @@ export default function TransactionsPage() {
  className={cn(
  'flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-bold transition-all',
  showFilters || hasActiveFilters
- ? 'bg-primary-600/20 text-primary-400 border border-primary-500/30'
- : 'bg-slate-800/60 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:text-slate-200 hover:bg-slate-800'
+ ? 'bg-primary-600/20 text-primary-600 dark:text-primary-400 border border-primary-500/30'
+ : 'bg-slate-100 dark:bg-slate-800/60 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-800'
  )}
  >
  <Filter className="w-3.5 h-3.5" />
  Filters
- {hasActiveFilters && <span className="w-1.5 h-1.5 rounded-full bg-primary-400" />}
+ {hasActiveFilters && <span className="w-1.5 h-1.5 rounded-full bg-primary-500 dark:bg-primary-400" />}
  </button>
  </Card>
 
@@ -300,7 +300,7 @@ export default function TransactionsPage() {
  <select
  value={accountFilter}
  onChange={(e) => { setAccountFilter(e.target.value); setPage(1); }}
- className="w-full bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded-xl px-3 py-2 text-xs text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-1 focus:ring-primary-500"
+ className="w-full bg-white dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-slate-200 focus:outline-none focus:ring-1 focus:ring-primary-500"
  >
  <option value="">All Accounts</option>
  {accounts.map((a) => <option key={a.id} value={a.id}>{a.name}</option>)}
@@ -312,7 +312,7 @@ export default function TransactionsPage() {
  type="date"
  value={startDate}
  onChange={(e) => { setStartDate(e.target.value); setPage(1); }}
- className="w-full bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded-xl px-3 py-2 text-xs text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-1 focus:ring-primary-500"
+ className="w-full bg-white dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-slate-200 focus:outline-none focus:ring-1 focus:ring-primary-500"
  />
  </div>
  <div>
@@ -321,12 +321,12 @@ export default function TransactionsPage() {
  type="date"
  value={endDate}
  onChange={(e) => { setEndDate(e.target.value); setPage(1); }}
- className="w-full bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded-xl px-3 py-2 text-xs text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-1 focus:ring-primary-500"
+ className="w-full bg-white dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded-xl px-3 py-2 text-xs text-slate-900 dark:text-slate-200 focus:outline-none focus:ring-1 focus:ring-primary-500"
  />
  </div>
  <div className="flex items-end">
  {hasActiveFilters && (
- <button onClick={clearFilters} className="flex items-center gap-1.5 px-3 py-2 text-xs font-bold text-red-400 hover:text-red-300 transition-colors">
+ <button onClick={clearFilters} className="flex items-center gap-1.5 px-3 py-2 text-xs font-bold text-red-600 hover:text-red-500 transition-colors">
  <X className="w-3.5 h-3.5" /> Clear Filters
  </button>
  )}
@@ -382,7 +382,7 @@ export default function TransactionsPage() {
  <button
  disabled={page === 1}
  onClick={() => setPage(page - 1)}
- className="p-2 rounded-xl text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:text-slate-200 hover:bg-slate-800/60 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+ className="p-2 rounded-xl text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/60 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
  >
  <ChevronLeft className="w-4 h-4" />
  </button>
@@ -392,7 +392,7 @@ export default function TransactionsPage() {
  <button
  disabled={page === pagination.totalPages}
  onClick={() => setPage(page + 1)}
- className="p-2 rounded-xl text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:text-slate-200 hover:bg-slate-800/60 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+ className="p-2 rounded-xl text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/60 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
  >
  <ChevronRight className="w-4 h-4" />
  </button>
@@ -421,11 +421,11 @@ export default function TransactionsPage() {
  'py-2 rounded-xl border text-xs font-bold transition-all duration-200',
  watch('type') === t
  ? t === 'INCOME'
- ? 'border-emerald-500 bg-emerald-500/10 text-emerald-400'
+ ? 'border-emerald-500 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
  : t === 'EXPENSE'
- ? 'border-rose-500 bg-rose-500/10 text-rose-400'
- : 'border-blue-500 bg-blue-500/10 text-blue-400'
- : 'border-slate-200 dark:border-slate-800 bg-slate-800/30 text-slate-500 dark:text-slate-400 hover:border-slate-300 dark:border-slate-700'
+ ? 'border-rose-500 bg-rose-500/10 text-rose-600 dark:text-rose-400'
+ : 'border-blue-500 bg-blue-500/10 text-blue-600 dark:text-blue-400'
+ : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/30 text-slate-500 dark:text-slate-400 hover:border-slate-350 dark:hover:border-slate-700'
  )}
  >
  {t === 'INCOME' ? '↑ Income' : t === 'EXPENSE' ? '↓ Expense' : '↔ Transfer'}
@@ -464,18 +464,18 @@ export default function TransactionsPage() {
  <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">Account</label>
  <select
  {...register('accountId')}
- className="w-full bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded-xl px-3 py-2.5 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-1 focus:ring-primary-500"
+ className="w-full bg-white dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded-xl px-3 py-2.5 text-sm text-slate-900 dark:text-slate-200 focus:outline-none focus:ring-1 focus:ring-primary-500"
  >
  <option value="">Select account</option>
  {accounts.map((a) => <option key={a.id} value={a.id}>{a.name}</option>)}
  </select>
- {errors.accountId && <p className="text-xs text-red-400 mt-1">{errors.accountId.message}</p>}
+ {errors.accountId && <p className="text-xs text-red-500 mt-1">{errors.accountId.message}</p>}
  </div>
  <div>
  <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">Category</label>
  <select
  {...register('categoryId')}
- className="w-full bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded-xl px-3 py-2.5 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-1 focus:ring-primary-500"
+ className="w-full bg-white dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded-xl px-3 py-2.5 text-sm text-slate-900 dark:text-slate-200 focus:outline-none focus:ring-1 focus:ring-primary-500"
  >
  <option value="">Select category</option>
  {(categoriesData || []).map((c: any) => <option key={c.id} value={c.id}>{c.name}</option>)}
@@ -503,7 +503,7 @@ export default function TransactionsPage() {
  {watch('isRecurring') && (
  <div>
  <label className="block text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5">Interval</label>
- <select {...register('recurringInterval')} className="w-full bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded-xl px-3 py-2.5 text-sm text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-1 focus:ring-primary-500">
+ <select {...register('recurringInterval')} className="w-full bg-white dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700/50 rounded-xl px-3 py-2.5 text-sm text-slate-900 dark:text-slate-200 focus:outline-none focus:ring-1 focus:ring-primary-500">
  <option value="">Select interval</option>
  <option value="DAILY">Daily</option>
  <option value="WEEKLY">Weekly</option>

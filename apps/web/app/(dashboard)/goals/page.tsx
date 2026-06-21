@@ -245,12 +245,12 @@ export default function GoalsPage() {
  {isLoading ? (
  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
  {[1, 2, 3].map((n) => (
- <Card key={n} className="h-64 animate-pulse bg-slate-50 dark:bg-slate-800/40 border border-slate-300 dark:border-slate-700" />
+ <Card key={n} className="h-64 animate-pulse bg-slate-100 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700" />
  ))}
  </div>
  ) : goals.length === 0 ? (
  <Card className="flex flex-col items-center justify-center p-12 text-center">
- <div className="p-4 rounded-full bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-500 dark:text-slate-400 mb-4">
+ <div className="p-4 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 mb-4">
  <PiggyBank className="w-10 h-10" />
  </div>
  <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-200">No savings goals created yet</h3>
@@ -269,12 +269,12 @@ export default function GoalsPage() {
  <Card
  key={goal.id}
  onClick={() => handleDetailsOpen(goal)}
- className="relative flex flex-col p-6 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:border-slate-700/80 bg-slate-900/60 backdrop-blur-md cursor-pointer hover:translate-y-[-2px] transition-all duration-200 group"
+ className="relative flex flex-col p-6 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700/80 bg-white dark:bg-slate-900/60 backdrop-blur-md cursor-pointer hover:translate-y-[-2px] transition-all duration-200 group"
  >
  {/* Header */}
  <div className="flex items-start justify-between mb-4">
  <div className="space-y-1 pr-4">
- <h3 className="text-base font-bold text-slate-900 dark:text-slate-100 group-hover:text-primary-400 transition-colors font-sans">
+ <h3 className="text-base font-bold text-slate-900 dark:text-slate-100 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors font-sans">
  {goal.name}
  </h3>
  {goal.category && (
@@ -298,9 +298,9 @@ export default function GoalsPage() {
  styles={buildStyles({
  textSize: '24px',
  pathColor: goal.color || '#6366f1',
- textColor: '#e2e8f0',
- trailColor: '#1e293b',
- backgroundColor: '#0f172a',
+ textColor: 'var(--text-primary)',
+ trailColor: 'var(--border-color)',
+ backgroundColor: 'transparent',
  })}
  />
  </div>
@@ -324,22 +324,22 @@ export default function GoalsPage() {
 
  {/* Deadline */}
  {goal.deadline && (
- <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-850 flex items-center justify-between text-xs text-slate-500">
+ <div className="mt-4 pt-3 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between text-xs text-slate-500">
  <div className="flex items-center space-x-1">
- <Calendar className="w-3..5 h-3.5" />
+ <Calendar className="w-3.5 h-3.5" />
  <span>Target: {formatDate(goal.deadline, 'MMM dd, yyyy')}</span>
  </div>
  {/* Actions */}
  <div className="flex space-x-2">
  <button
  onClick={(e) => handleEditOpen(goal, e)}
- className="p-1 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:text-slate-200 transition-colors"
+ className="p-1 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition-colors"
  >
  <Edit2 className="w-3.5 h-3.5" />
  </button>
  <button
  onClick={(e) => handleDelete(goal.id, e)}
- className="p-1 text-slate-500 dark:text-slate-400 hover:text-red-400 transition-colors"
+ className="p-1 text-slate-500 dark:text-slate-400 hover:text-red-650 dark:hover:text-red-400 transition-colors"
  >
  <Trash2 className="w-3.5 h-3.5" />
  </button>
@@ -459,7 +459,7 @@ export default function GoalsPage() {
  <input
  id="autoContribute"
  type="checkbox"
- className="w-4 h-4 rounded border-slate-300 dark:border-slate-700 bg-slate-800 text-primary-500 focus:ring-primary-500"
+ className="w-4 h-4 rounded border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-primary-500 focus:ring-primary-500"
  {...register('autoContribute')}
  />
  <label htmlFor="autoContribute" className="text-sm text-slate-600 dark:text-slate-300">
@@ -549,7 +549,7 @@ export default function GoalsPage() {
  title={`Goal Details: ${activeGoalDetails.name}`}
  >
  <div className="space-y-6 pt-2">
- <div className="flex items-center justify-between p-4 rounded-xl bg-slate-800/60 border border-slate-300 dark:border-slate-700">
+ <div className="flex items-center justify-between p-4 rounded-xl bg-slate-50 dark:bg-slate-850/60 border border-slate-200 dark:border-slate-700">
  <div className="space-y-1">
  <p className="text-xs text-slate-500 dark:text-slate-400">Total Saved Progress</p>
  <p className="text-xl font-bold text-slate-900 dark:text-slate-100">
@@ -572,8 +572,9 @@ export default function GoalsPage() {
  styles={buildStyles({
  textSize: '24px',
  pathColor: activeGoalDetails.color || '#6366f1',
- textColor: '#e2e8f0',
- trailColor: '#1e293b',
+ textColor: 'var(--text-primary)',
+ trailColor: 'var(--border-color)',
+ backgroundColor: 'transparent',
  })}
  />
  </div>
@@ -602,17 +603,17 @@ export default function GoalsPage() {
  )}
  </div>
 
- <div className="max-h-48 overflow-y-auto space-y-2 divide-y divide-slate-850 scrollbar-thin scrollbar-thumb-slate-800">
+ <div className="max-h-48 overflow-y-auto space-y-2 divide-y divide-slate-200 dark:divide-slate-800 scrollbar-thin scrollbar-thumb-slate-800">
  {!activeGoalDetails.contributions || activeGoalDetails.contributions.length === 0 ? (
  <p className="text-xs text-slate-500 text-center py-4">No contributions logged yet.</p>
  ) : (
  activeGoalDetails.contributions.map((c: any) => (
  <div key={c.id} className="flex justify-between py-2 items-center text-xs">
  <div>
- <p className="font-semibold text-slate-800 dark:text-slate-200">{c.note || 'Contribution'}</p>
+ <p className="font-semibold text-slate-900 dark:text-slate-200">{c.note || 'Contribution'}</p>
  <p className="text-slate-500 text-[10px]">{formatDate(c.date, 'MMM dd, yyyy')}</p>
  </div>
- <span className="font-bold text-emerald-400">
+ <span className="font-bold text-emerald-600 dark:text-emerald-400">
  +{formatCurrency(Number(c.amount), currency)}
  </span>
  </div>
@@ -624,7 +625,7 @@ export default function GoalsPage() {
  <div className="flex justify-between pt-4 border-t border-slate-200 dark:border-slate-800 text-xs">
  <button
  onClick={(e) => handleDelete(activeGoalDetails.id, e)}
- className="flex items-center text-red-400 hover:text-red-300 font-semibold transition-colors"
+ className="flex items-center text-red-600 hover:text-red-750 dark:text-red-400 dark:hover:text-red-300 font-semibold transition-colors"
  >
  <Trash2 className="w-4 h-4 mr-1" /> Delete Goal
  </button>

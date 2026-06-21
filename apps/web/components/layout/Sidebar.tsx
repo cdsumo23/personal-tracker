@@ -88,7 +88,7 @@ export default function Sidebar() {
             <h4 className="text-sm font-bold text-slate-800 dark:text-slate-200 truncate">
               {user?.firstName} {user?.lastName}
             </h4>
-            <p className="text-xs text-slate-400 dark:text-slate-500 truncate">{user?.email}</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400 truncate">{user?.email}</p>
           </div>
         </div>
 
@@ -123,7 +123,7 @@ export default function Sidebar() {
         <div className="p-4 border-t border-slate-200 dark:border-slate-800/80">
           <button
             onClick={() => logout()}
-            className="flex items-center gap-3.5 w-full px-4 py-3 rounded-xl text-sm font-medium text-red-500 dark:text-red-400 hover:text-red-650 dark:hover:text-red-300 hover:bg-red-500/5 transition-all duration-200 select-none touch-target"
+            className="flex items-center gap-3.5 w-full px-4 py-3 rounded-xl text-sm font-medium text-red-500 dark:text-red-400 hover:text-red-600 dark:hover:text-red-300 hover:bg-red-500/5 transition-all duration-200 select-none touch-target"
           >
             <LogOut className="w-5 h-5" />
             Sign Out

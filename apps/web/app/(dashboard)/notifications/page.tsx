@@ -48,7 +48,7 @@ export default function NotificationsPage() {
  };
 
  const getNotificationBg = (type: string, isRead: boolean) => {
- if (isRead) return 'bg-slate-900/10 border-slate-200 dark:border-slate-800/40 opacity-70';
+ if (isRead) return 'bg-slate-900/10 border-slate-200 dark:border-slate-200 dark:border-slate-800/40 opacity-70';
  switch (type) {
  case 'SUCCESS':
  return 'bg-emerald-500/5 border-emerald-500/10 hover:border-emerald-500/25';
@@ -107,7 +107,7 @@ export default function NotificationsPage() {
  <PageHeader title="Alert Notification Center" description="View and manage your alerts." />
  <Card className="p-6 space-y-4">
  {[...Array(4)].map((_, i) => (
- <div key={i} className="flex gap-4 p-4 border border-slate-200 dark:border-slate-800/80 rounded-xl animate-pulse">
+ <div key={i} className="flex gap-4 p-4 border border-slate-200 dark:border-slate-200 dark:border-slate-800/80 rounded-xl animate-pulse">
  <div className="w-8 h-8 rounded-full bg-slate-800" />
  <div className="flex-1 space-y-2">
  <div className="h-4 bg-slate-800 rounded w-1/4" />
@@ -131,7 +131,7 @@ export default function NotificationsPage() {
  variant="outline"
  size="sm"
  onClick={handleMarkAllRead}
- className="border-slate-300 dark:border-slate-700 hover:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:text-slate-100 flex items-center gap-1.5 text-xs font-bold"
+ className="border-slate-300 dark:border-slate-300 dark:border-slate-700 hover:bg-slate-800 text-slate-600 dark:text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:text-slate-900 dark:text-slate-100 flex items-center gap-1.5 text-xs font-bold"
  >
  <Check className="w-4 h-4 text-emerald-400" />
  Mark All Read
@@ -141,7 +141,7 @@ export default function NotificationsPage() {
  />
 
  {/* Filters */}
- <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
+ <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-200 dark:border-slate-800 pb-3">
  <div className="flex gap-1.5">
  {(['all', 'unread', 'read'] as const).map((t) => (
  <button
@@ -149,8 +149,8 @@ export default function NotificationsPage() {
  onClick={() => setFilter(t)}
  className={`py-1.5 px-4 rounded-xl text-xs font-bold transition-all relative ${
  filter === t
- ? 'bg-slate-800 text-slate-900 dark:text-slate-100'
- : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:text-slate-200 hover:bg-slate-800/30'
+ ? 'bg-slate-800 text-slate-900 dark:text-slate-900 dark:text-slate-100'
+ : 'text-slate-500 dark:text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:text-slate-800 dark:text-slate-200 hover:bg-slate-800/30'
  }`}
  >
  {t.charAt(0).toUpperCase() + t.slice(1)}
@@ -193,21 +193,21 @@ export default function NotificationsPage() {
  )}`}
  >
  {/* Icon Container */}
- <div className={`p-2 rounded-xl flex-shrink-0 bg-slate-950/40 border border-slate-200 dark:border-slate-800/80`}>
+ <div className={`p-2 rounded-xl flex-shrink-0 bg-slate-950/40 border border-slate-200 dark:border-slate-200 dark:border-slate-800/80`}>
  {getNotificationIcon(n.type)}
  </div>
 
  {/* Content */}
  <div className="flex-1 min-w-0">
  <div className="flex items-center gap-2 flex-wrap">
- <h4 className={`text-[13px] font-bold tracking-tight ${n.isRead ? 'text-slate-600 dark:text-slate-300' : 'text-slate-900 dark:text-slate-100'}`}>
+ <h4 className={`text-[13px] font-bold tracking-tight ${n.isRead ? 'text-slate-600 dark:text-slate-600 dark:text-slate-300' : 'text-slate-900 dark:text-slate-900 dark:text-slate-100'}`}>
  {n.title}
  </h4>
  {!n.isRead && (
  <Badge variant="info" className="px-1.5 py-0 text-[9px] font-extrabold uppercase tracking-wide">New</Badge>
  )}
  </div>
- <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-normal">
+ <p className="text-xs text-slate-500 dark:text-slate-500 dark:text-slate-400 mt-1 leading-normal">
  {n.message}
  </p>
  <div className="flex items-center gap-1.5 mt-2 text-[10px] text-slate-500 font-semibold">
@@ -222,7 +222,7 @@ export default function NotificationsPage() {
  <button
  onClick={(e) => handleMarkRead(n.id, e)}
  title="Mark as read"
- className="p-1.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors touch-target"
+ className="p-1.5 rounded-lg text-slate-500 dark:text-slate-500 dark:text-slate-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-colors touch-target"
  >
  <Check className="w-3.5 h-3.5" />
  </button>
@@ -230,7 +230,7 @@ export default function NotificationsPage() {
  <button
  onClick={(e) => handleDelete(n.id, e)}
  title="Delete permanently"
- className="p-1.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors touch-target"
+ className="p-1.5 rounded-lg text-slate-500 dark:text-slate-500 dark:text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors touch-target"
  >
  <Trash2 className="w-3.5 h-3.5" />
  </button>

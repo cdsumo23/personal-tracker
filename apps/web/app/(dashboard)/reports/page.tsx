@@ -142,7 +142,7 @@ export default function ReportsPage() {
  className={`flex items-center space-x-2 py-2 px-4 rounded-xl text-xs font-bold transition-all ${
  activeTab === 'income'
  ? 'bg-primary-500 text-white'
- : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:text-slate-200'
+ : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
  }`}
  >
  <BarChart2 className="w-4 h-4" />
@@ -153,7 +153,7 @@ export default function ReportsPage() {
  className={`flex items-center space-x-2 py-2 px-4 rounded-xl text-xs font-bold transition-all ${
  activeTab === 'expense'
  ? 'bg-primary-500 text-white'
- : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:text-slate-200'
+ : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
  }`}
  >
  <PieChart className="w-4 h-4" />
@@ -164,7 +164,7 @@ export default function ReportsPage() {
  className={`flex items-center space-x-2 py-2 px-4 rounded-xl text-xs font-bold transition-all ${
  activeTab === 'cashflow'
  ? 'bg-primary-500 text-white'
- : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:text-slate-200'
+ : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
  }`}
  >
  <TrendingUp className="w-4 h-4" />
@@ -175,7 +175,7 @@ export default function ReportsPage() {
  className={`flex items-center space-x-2 py-2 px-4 rounded-xl text-xs font-bold transition-all ${
  activeTab === 'networth'
  ? 'bg-primary-500 text-white'
- : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:text-slate-200'
+ : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
  }`}
  >
  <ShieldAlert className="w-4 h-4" />

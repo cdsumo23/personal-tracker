@@ -23,6 +23,28 @@ export function usePushNotifications() {
   const [isLoading, setIsLoading] = useState(true);
   const [isActionLoading, setIsActionLoading] = useState(false);
 
+  const getRegistration = useCallback(async (): Promise<ServiceWorkerRegistration> => {
+    // 1. Try to get existing registration
+    const registrations = await navigator.serviceWorker.getRegistrations();
+    if (registrations && registrations.length > 0) {
+      const activeReg = registrations.find(r => r.active) || registrations[0];
+      return activeReg;
+    }
+
+    // 2. If no active registration, try to manually register
+    console.log('No service worker registered. Registering sw.js manually...');
+    try {
+      const reg = await navigator.serviceWorker.register('/sw.js');
+      console.log('Service worker registered manually:', reg);
+      return reg;
+    } catch (err) {
+      console.error('Manual service worker registration failed:', err);
+    }
+
+    // 3. Fallback to ready
+    return await navigator.serviceWorker.ready;
+  }, []);
+
   const checkSubscription = useCallback(async () => {
     if (typeof window === 'undefined') return;
 
@@ -37,15 +59,15 @@ export function usePushNotifications() {
     try {
       setPermission(Notification.permission);
 
-      // Timeout prevents infinite loading if the service worker never becomes ready
       const timeoutPromise = new Promise<never>((_, reject) =>
         setTimeout(() => reject(new Error('Service worker ready timeout')), 5000)
       );
 
       const registration = await Promise.race([
-        navigator.serviceWorker.ready,
+        getRegistration(),
         timeoutPromise,
       ]);
+      
       const sub = await registration.pushManager.getSubscription();
       setIsSubscribed(!!sub);
     } catch (err) {
@@ -53,7 +75,7 @@ export function usePushNotifications() {
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [getRegistration]);
 
   useEffect(() => {
     checkSubscription();
@@ -82,7 +104,15 @@ export function usePushNotifications() {
       const { publicKey } = res.data.data;
 
       // 3. Register push manager on browser
-      const registration = await navigator.serviceWorker.ready;
+      const timeoutPromise = new Promise<never>((_, reject) =>
+        setTimeout(() => reject(new Error('Service worker ready timeout')), 5000)
+      );
+
+      const registration = await Promise.race([
+        getRegistration(),
+        timeoutPromise,
+      ]);
+
       const convertedKey = urlBase64ToUint8Array(publicKey);
 
       const subscription = await registration.pushManager.subscribe({
@@ -121,7 +151,15 @@ export function usePushNotifications() {
 
     setIsActionLoading(true);
     try {
-      const registration = await navigator.serviceWorker.ready;
+      const timeoutPromise = new Promise<never>((_, reject) =>
+        setTimeout(() => reject(new Error('Service worker ready timeout')), 5000)
+      );
+
+      const registration = await Promise.race([
+        getRegistration(),
+        timeoutPromise,
+      ]);
+
       const sub = await registration.pushManager.getSubscription();
 
       if (sub) {

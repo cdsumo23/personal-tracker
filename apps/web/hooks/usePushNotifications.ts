@@ -23,26 +23,53 @@ export function usePushNotifications() {
   const [isLoading, setIsLoading] = useState(true);
   const [isActionLoading, setIsActionLoading] = useState(false);
 
-  const getRegistration = useCallback(async (): Promise<ServiceWorkerRegistration> => {
+  const getActiveRegistration = useCallback(async (): Promise<ServiceWorkerRegistration> => {
     // 1. Try to get existing registration
     const registrations = await navigator.serviceWorker.getRegistrations();
-    if (registrations && registrations.length > 0) {
-      const activeReg = registrations.find(r => r.active) || registrations[0];
-      return activeReg;
-    }
+    let registration = registrations && registrations.length > 0
+      ? (registrations.find(r => r.active) || registrations[0])
+      : null;
 
     // 2. If no active registration, try to manually register
-    console.log('No service worker registered. Registering sw.js manually...');
-    try {
-      const reg = await navigator.serviceWorker.register('/sw.js');
-      console.log('Service worker registered manually:', reg);
-      return reg;
-    } catch (err) {
-      console.error('Manual service worker registration failed:', err);
+    if (!registration) {
+      console.log('No active service worker registration found. Registering sw.js manually...');
+      try {
+        registration = await navigator.serviceWorker.register('/sw.js');
+        console.log('Service worker registered manually:', registration);
+      } catch (err) {
+        console.error('Manual service worker registration failed:', err);
+      }
     }
 
-    // 3. Fallback to ready
-    return await navigator.serviceWorker.ready;
+    // 3. Fallback to ready if we couldn't get/create a registration
+    if (!registration) {
+      return await navigator.serviceWorker.ready;
+    }
+
+    // 4. Wait for the service worker to become fully activated if it is installing or waiting
+    const serviceWorker = registration.active || registration.waiting || registration.installing;
+    if (!serviceWorker || serviceWorker.state === 'activated') {
+      return registration;
+    }
+
+    console.log(`Service worker state is '${serviceWorker.state}'. Waiting for 'activated' state...`);
+    return new Promise((resolve) => {
+      const stateChangeListener = () => {
+        if (serviceWorker.state === 'activated') {
+          serviceWorker.removeEventListener('statechange', stateChangeListener);
+          console.log('Service worker activated successfully.');
+          resolve(registration!);
+        }
+      };
+      serviceWorker.addEventListener('statechange', stateChangeListener);
+      
+      // Safety timeout: resolve after 4 seconds regardless so we don't block forever
+      setTimeout(() => {
+        serviceWorker.removeEventListener('statechange', stateChangeListener);
+        console.warn('Timeout waiting for service worker activation. Resolving anyway.');
+        resolve(registration!);
+      }, 4000);
+    });
   }, []);
 
   const checkSubscription = useCallback(async () => {
@@ -64,7 +91,7 @@ export function usePushNotifications() {
       );
 
       const registration = await Promise.race([
-        getRegistration(),
+        getActiveRegistration(),
         timeoutPromise,
       ]);
       
@@ -75,7 +102,7 @@ export function usePushNotifications() {
     } finally {
       setIsLoading(false);
     }
-  }, [getRegistration]);
+  }, [getActiveRegistration]);
 
   useEffect(() => {
     checkSubscription();
@@ -109,7 +136,7 @@ export function usePushNotifications() {
       );
 
       const registration = await Promise.race([
-        getRegistration(),
+        getActiveRegistration(),
         timeoutPromise,
       ]);
 
@@ -156,7 +183,7 @@ export function usePushNotifications() {
       );
 
       const registration = await Promise.race([
-        getRegistration(),
+        getActiveRegistration(),
         timeoutPromise,
       ]);
 

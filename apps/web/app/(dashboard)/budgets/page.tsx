@@ -16,13 +16,13 @@ import { useForm, useFieldArray } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useQuery } from '@tanstack/react-query';
-import { categoriesApi } from '@/lib/api';
+import { categoriesApi, currencyApi } from '@/lib/api';
 import {
  Plus, Trash2, Pencil, PieChart, Calendar,
  AlertTriangle, CheckCircle2, TrendingDown, MoreVertical, X,
 } from 'lucide-react';
 import { cn, formatDate, calculatePercentage, getStatusColor } from '@/lib/utils';
-import type { Budget } from '@/types';
+import type { Budget, ExchangeRate } from '@/types';
 
 const CURRENCIES = ['USD', 'EUR', 'GBP', 'LRD', 'NGN', 'GHS'] as const;
 
@@ -155,74 +155,112 @@ function BudgetCard({
 }
 
 export default function BudgetsPage() {
- const { format } = useCurrency();
+ const { format, currency } = useCurrency();
  const {
- budgets, isLoading,
- createBudget, isCreating,
- updateBudget, isUpdating,
- deleteBudget, isDeleting,
+  budgets, isLoading,
+  createBudget, isCreating,
+  updateBudget, isUpdating,
+  deleteBudget, isDeleting,
  } = useBudgets();
 
  const { data: categoriesData } = useQuery({
- queryKey: ['categories'],
- queryFn: async () => {
- const r = await categoriesApi.getAll();
- return r.data.data as any[];
- },
+  queryKey: ['categories'],
+  queryFn: async () => {
+  const r = await categoriesApi.getAll();
+  return r.data.data as any[];
+  },
  });
+
+ // Fetch exchange rates for client-side currency conversion
+ const { data: ratesData } = useQuery({
+  queryKey: ['exchange-rates'],
+  queryFn: async () => {
+    const res = await currencyApi.getRates();
+    return res.data.data as ExchangeRate[];
+  },
+ });
+
+ const convertAmount = React.useCallback((amount: number, from: string, to: string): number => {
+  const amt = Number(amount);
+  if (from === to || isNaN(amt)) return amt;
+  if (!ratesData || ratesData.length === 0) return amt;
+
+  const fromRate = from === 'USD' ? 1 : (ratesData.find(r => r.targetCurrency === from && r.baseCurrency === 'USD')?.rate ?? null);
+  const toRate = to === 'USD' ? 1 : (ratesData.find(r => r.targetCurrency === to && r.baseCurrency === 'USD')?.rate ?? null);
+
+  if (fromRate === null || toRate === null) return amt;
+
+  return (amt / Number(fromRate)) * Number(toRate);
+ }, [ratesData]);
 
  const [isModalOpen, setIsModalOpen] = React.useState(false);
  const [editingBudget, setEditingBudget] = React.useState<Budget | null>(null);
  const [deleteConfirm, setDeleteConfirm] = React.useState<{ id: string; name: string } | null>(null);
 
  const { register, handleSubmit, reset, control, watch, formState: { errors } } = useForm<BudgetFormData>({
- resolver: zodResolver(budgetSchema),
- defaultValues: {
- period: 'MONTHLY',
- categories: [{ categoryId: '', amount: 0 }],
- },
+  resolver: zodResolver(budgetSchema),
+  defaultValues: {
+  period: 'MONTHLY',
+  categories: [{ categoryId: '', amount: 0 }],
+  },
  });
 
  const { fields, append, remove } = useFieldArray({ control, name: 'categories' });
 
  const openCreate = () => {
- reset({
- period: 'MONTHLY',
- startDate: new Date().toISOString().split('T')[0],
- endDate: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).toISOString().split('T')[0],
- categories: [{ categoryId: '', amount: 0, currency: 'USD' }],
- });
- setEditingBudget(null);
- setIsModalOpen(true);
+  reset({
+  period: 'MONTHLY',
+  startDate: new Date().toISOString().split('T')[0],
+  endDate: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).toISOString().split('T')[0],
+  categories: [{ categoryId: '', amount: 0, currency: 'USD' }],
+  });
+  setEditingBudget(null);
+  setIsModalOpen(true);
  };
 
  const openEdit = (budget: Budget) => {
- setEditingBudget(budget);
- reset({
- name: budget.name,
- period: budget.period,
- startDate: budget.startDate.split('T')[0],
- endDate: budget.endDate.split('T')[0],
- categories: budget.budgetCategories?.map((bc) => ({
- categoryId: bc.categoryId,
- amount: bc.allocatedAmount,
- currency: (bc as any).currency || 'USD',
- })) || [{ categoryId: '', amount: 0, currency: 'USD' }],
- });
- setIsModalOpen(true);
+  setEditingBudget(budget);
+  reset({
+  name: budget.name,
+  period: budget.period,
+  startDate: budget.startDate.split('T')[0],
+  endDate: budget.endDate.split('T')[0],
+  categories: budget.budgetCategories?.map((bc) => ({
+  categoryId: bc.categoryId,
+  amount: bc.allocatedAmount,
+  currency: (bc as any).currency || 'USD',
+  })) || [{ categoryId: '', amount: 0, currency: 'USD' }],
+  });
+  setIsModalOpen(true);
  };
 
  const onSubmit = async (data: BudgetFormData) => {
- if (editingBudget) {
- await updateBudget({ id: editingBudget.id, data });
- } else {
- await createBudget(data);
- }
- setIsModalOpen(false);
- reset();
+  if (editingBudget) {
+  await updateBudget({ id: editingBudget.id, data });
+  } else {
+  await createBudget(data);
+  }
+  setIsModalOpen(false);
+  reset();
  };
 
- const totalAllocated = budgets.filter((b) => b.isActive).reduce((sum, b) => sum + b.totalAmount, 0);
+ // Sum all active budget allocations, converting each category to the user's currency
+ const totalAllocated = React.useMemo(() => {
+  return budgets
+    .filter((b) => b.isActive)
+    .reduce((sum, b) => {
+      if (b.budgetCategories && b.budgetCategories.length > 0) {
+        // Convert each category allocation from its own currency to the user's currency
+        const budgetTotal = b.budgetCategories.reduce((catSum, bc) => {
+          const catCurrency = (bc as any).currency || 'USD';
+          return catSum + convertAmount(Number(bc.allocatedAmount), catCurrency, currency);
+        }, 0);
+        return sum + budgetTotal;
+      }
+      // Fallback: treat b.totalAmount as already in user's currency (server-converted)
+      return sum + b.totalAmount;
+    }, 0);
+ }, [budgets, convertAmount, currency]);
 
  return (
  <div className="space-y-6">

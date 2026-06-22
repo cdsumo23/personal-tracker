@@ -18,7 +18,8 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useQuery } from '@tanstack/react-query';
-import { categoriesApi } from '@/lib/api';
+import { categoriesApi, currencyApi } from '@/lib/api';
+import type { ExchangeRate } from '@/types';
 
 const CURRENCIES = ['USD', 'EUR', 'GBP', 'LRD', 'NGN', 'GHS'] as const;
 
@@ -90,10 +91,34 @@ export default function BillsPage() {
  }
  }, [accounts, payForm]);
 
- // Stats
- const totalUnpaid = bills.filter((b) => !b.isPaid).reduce((sum, b) => sum + Number(b.amountInBase || b.amount), 0);
- const totalPaid = bills.filter((b) => b.isPaid).reduce((sum, b) => sum + Number(b.amountInBase || b.amount), 0);
- const unpaidCount = bills.filter((b) => !b.isPaid).length;
+  const { data: ratesData } = useQuery({
+    queryKey: ['exchange-rates'],
+    queryFn: async () => {
+      const res = await currencyApi.getRates();
+      return res.data.data as ExchangeRate[];
+    },
+  });
+
+  const convertAmount = React.useCallback((amount: number, from: string, to: string): number => {
+    const amt = Number(amount); // guard: ensure it's a real number
+    if (from === to || isNaN(amt)) return amt;
+    if (!ratesData || ratesData.length === 0) return amt;
+
+    // All rates stored as USD-based: rate = how many {target} per 1 USD
+    // To convert `from` → `to`: first convert `from` → USD, then USD → `to`
+    const fromRate = from === 'USD' ? 1 : (ratesData.find(r => r.targetCurrency === from && r.baseCurrency === 'USD')?.rate ?? null);
+    const toRate = to === 'USD' ? 1 : (ratesData.find(r => r.targetCurrency === to && r.baseCurrency === 'USD')?.rate ?? null);
+
+    if (fromRate === null || toRate === null) return amt; // rate missing, return as-is
+
+    const amountInUSD = amt / Number(fromRate);
+    return amountInUSD * Number(toRate);
+  }, [ratesData]);
+
+  // Stats
+  const totalUnpaid = bills.filter((b) => !b.isPaid).reduce((sum, b) => sum + convertAmount(Number(b.amount), b.currency || 'USD', currency), 0);
+  const totalPaid = bills.filter((b) => b.isPaid).reduce((sum, b) => sum + convertAmount(Number(b.amount), b.currency || 'USD', currency), 0);
+  const unpaidCount = bills.filter((b) => !b.isPaid).length;
 
  // Handle Create Open
  const handleCreateOpen = () => {
@@ -287,9 +312,16 @@ export default function BillsPage() {
       <div className="space-y-4 flex-1 flex flex-col justify-end">
         <div className="flex justify-between items-baseline">
           <span className="text-xs text-slate-500 dark:text-slate-400">Monthly Amount</span>
-          <span className="text-lg font-extrabold text-slate-800 dark:text-slate-200">
-            {formatCurrency(bill.amount, bill.currency || 'USD')}
-          </span>
+          <div className="text-right">
+            <span className="text-lg font-extrabold text-slate-800 dark:text-slate-200">
+              {formatCurrency(bill.amount, bill.currency || 'USD')}
+            </span>
+            {bill.currency !== currency && (
+              <p className="text-[10px] text-slate-500 font-medium mt-0.5">
+                ≈ {formatCurrency(convertAmount(Number(bill.amount), bill.currency || 'USD', currency), currency)}
+              </p>
+            )}
+          </div>
         </div>
 
         <div className="pt-2 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between text-xs text-slate-500">

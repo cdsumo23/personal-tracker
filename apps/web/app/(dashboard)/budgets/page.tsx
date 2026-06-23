@@ -108,41 +108,96 @@ function BudgetCard({
  <p className={cn('text-[10px] font-bold', status.text)}>{status.label}</p>
  </div>
  </div>
- <div className="h-2 bg-slate-200 dark:bg-slate-800/80 rounded-full overflow-hidden">
- <div
- className={cn('h-full rounded-full transition-all duration-700', status.fill)}
- style={{ width: `${Math.min(pct, 100)}%` }}
- />
- </div>
- {/* Category breakdown mini-list */}
- {usage.categories && usage.categories.length > 0 && (
- <div className="mt-4 space-y-2.5">
- {usage.categories.map((cat: any) => {
- const catFmt = (n: number) => new Intl.NumberFormat('en-US', {
- style: 'currency', currency: cat.currency || 'USD', maximumFractionDigits: 0
- }).format(n);
- return (
- <div key={cat.categoryId}>
- <div className="flex justify-between text-[10px] text-slate-500 mb-1">
- <span className="font-semibold text-slate-600 dark:text-slate-300">{cat.name}</span>
- <span className="flex items-center gap-1">
- {catFmt(cat.spent)} / {catFmt(cat.allocated)}
- {cat.currency && cat.currency !== 'USD' && (
- <span className="bg-slate-200 dark:bg-slate-700/60 text-slate-500 dark:text-slate-400 rounded px-1 py-0.5 text-[9px] font-bold">{cat.currency}</span>
- )}
- </span>
- </div>
- <div className="h-1.5 bg-slate-200 dark:bg-slate-800/80 rounded-full overflow-hidden">
- <div
- className="h-full rounded-full"
- style={{ width: `${Math.min(cat.percentage, 100)}%`, backgroundColor: cat.color }}
- />
- </div>
- </div>
- );
- })}
- </div>
- )}
+ <div className="h-2 bg-slate-200 dark:bg-slate-800/80 rounded-full overflow-hidden relative">
+    {/* Projected Spending Bar (wider, semi-transparent indicator, behind the actual spent) */}
+    {usage.projectedPercentage !== undefined && usage.projectedPercentage > pct && (
+      <div
+        className={cn(
+          "absolute top-0 left-0 h-full transition-all duration-700",
+          usage.isProjectedOver 
+            ? "bg-amber-500/30 dark:bg-amber-500/20" 
+            : "bg-emerald-500/30 dark:bg-emerald-500/20"
+        )}
+        style={{ width: `${Math.min(usage.projectedPercentage, 100)}%` }}
+      />
+    )}
+    {/* Actual Spent Bar */}
+    <div
+      className={cn('absolute top-0 left-0 h-full rounded-full transition-all duration-700', status.fill)}
+      style={{ width: `${Math.min(pct, 100)}%` }}
+    />
+  </div>
+
+  {/* Overall Projection Info */}
+  {usage.projectedSpent !== undefined && usage.useExtrapolation && (
+    <div className="mt-3 text-[11px] flex justify-between items-center text-slate-500">
+      <span>Projected spent: <strong className="text-slate-700 dark:text-slate-300">{format(usage.projectedSpent)}</strong></span>
+      <span className={cn(
+        "font-bold px-1.5 py-0.5 rounded text-[9px]",
+        usage.isProjectedOver 
+          ? "bg-red-500/10 text-red-500 dark:bg-red-500/20" 
+          : "bg-green-500/10 text-green-500 dark:bg-green-500/20"
+      )}>
+        {usage.isProjectedOver ? "⚠️ Over projection" : "🟢 On Track"}
+      </span>
+    </div>
+  )}
+
+  {/* Category breakdown mini-list */}
+  {usage.categories && usage.categories.length > 0 && (
+    <div className="mt-4 space-y-3">
+      {usage.categories.map((cat: any) => {
+        const catFmt = (n: number) => new Intl.NumberFormat('en-US', {
+          style: 'currency', currency: cat.currency || 'USD', maximumFractionDigits: 0
+        }).format(n);
+        return (
+          <div key={cat.categoryId}>
+            <div className="flex justify-between text-[10px] text-slate-500 mb-1">
+              <span className="font-semibold text-slate-600 dark:text-slate-300 flex items-center gap-1">
+                {cat.name}
+                {cat.isProjectedOver && usage.useExtrapolation && (
+                  <span title="Projected to exceed category budget" className="text-amber-500 cursor-help text-[9px]">⚠️</span>
+                )}
+              </span>
+              <span className="flex items-center gap-1.5">
+                {cat.projectedSpent !== undefined && usage.useExtrapolation && (
+                  <span className="text-slate-400 dark:text-slate-500 mr-1 text-[9px]">
+                    Proj: {catFmt(cat.projectedSpent)}
+                  </span>
+                )}
+                <span>
+                  {catFmt(cat.spent)} / {catFmt(cat.allocated)}
+                </span>
+                {cat.currency && cat.currency !== 'USD' && (
+                  <span className="bg-slate-200 dark:bg-slate-700/60 text-slate-500 dark:text-slate-400 rounded px-1 py-0.5 text-[9px] font-bold">{cat.currency}</span>
+                )}
+              </span>
+            </div>
+            <div className="h-1.5 bg-slate-200 dark:bg-slate-800/80 rounded-full overflow-hidden relative">
+              {/* Projected Category Bar */}
+              {cat.projectedPercentage !== undefined && cat.projectedPercentage > cat.percentage && usage.useExtrapolation && (
+                <div
+                  className="absolute top-0 left-0 h-full opacity-30 transition-all duration-700"
+                  style={{
+                    width: `${Math.min(cat.projectedPercentage, 100)}%`,
+                    backgroundColor: cat.color
+                  }}
+                />
+              )}
+              {/* Actual Category Bar */}
+              <div
+                className="absolute top-0 left-0 h-full rounded-full transition-all duration-700"
+                style={{
+                  width: `${Math.min(cat.percentage, 100)}%`,
+                  backgroundColor: cat.color
+                }}
+              />
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  )}
  </>
  ) : (
  <div className="space-y-2">

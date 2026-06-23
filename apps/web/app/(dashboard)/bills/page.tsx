@@ -13,7 +13,8 @@ import { Badge } from '@/components/ui/Badge';
 import { CurrencyInput } from '@/components/ui/CurrencyInput';
 import { useAuthStore } from '@/store/auth.store';
 import { formatCurrency } from '@/lib/utils';
-import { Plus, Trash2, Edit2, Calendar, AlertCircle, CheckCircle2, RefreshCw, Clock } from 'lucide-react';
+import { Plus, Trash2, Edit2, Calendar, AlertCircle, CheckCircle2, RefreshCw, Clock, BellRing, X as CloseIcon } from 'lucide-react';
+import { usePushNotifications } from '@/hooks/usePushNotifications';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -40,6 +41,28 @@ export default function BillsPage() {
  const { accounts } = useAccounts();
  const user = useAuthStore((state) => state.user);
  const currency = user?.currency || 'USD';
+
+ const push = usePushNotifications();
+ const [showPushBanner, setShowPushBanner] = React.useState(false);
+
+ React.useEffect(() => {
+   if (typeof window !== 'undefined') {
+     const dismissed = sessionStorage.getItem('dismissedBillPushBanner');
+     if (
+       !dismissed &&
+       push.isSupported &&
+       !push.isSubscribed &&
+       push.permission !== 'denied'
+     ) {
+       setShowPushBanner(true);
+     }
+   }
+ }, [push.isSupported, push.isSubscribed, push.permission]);
+
+ const handleDismissPushBanner = () => {
+   sessionStorage.setItem('dismissedBillPushBanner', 'true');
+   setShowPushBanner(false);
+ };
 
  const { data: categoriesData } = useQuery({
  queryKey: ['categories'],
@@ -220,6 +243,40 @@ export default function BillsPage() {
  </Button>
  }
  />
+
+ {showPushBanner && (
+   <Card className="p-4 bg-amber-500/5 dark:bg-amber-500/5 border border-amber-500/10 dark:border-amber-500/10 flex flex-col sm:flex-row items-center justify-between gap-4 relative overflow-hidden transition-all duration-300">
+     <div className="flex items-start gap-3">
+       <div className="p-2.5 rounded-xl bg-amber-500/10 dark:bg-amber-500/10 text-amber-500 animate-pulse mt-0.5">
+         <BellRing className="w-5 h-5" />
+       </div>
+       <div>
+         <h4 className="font-bold text-slate-800 dark:text-slate-200 text-sm flex items-center gap-1.5">
+           Never Miss a Bill Payment!
+         </h4>
+         <p className="text-xs text-slate-500 mt-0.5 max-w-2xl leading-relaxed">
+           Get instant native push alerts on your desktop or mobile device 5 days, 3 days, and on the due date of your bills.
+         </p>
+       </div>
+     </div>
+     <div className="flex items-center gap-3 w-full sm:w-auto shrink-0 z-10">
+       <Button 
+         onClick={push.subscribe} 
+         isLoading={push.isActionLoading}
+         size="sm"
+         className="bg-amber-500 hover:bg-amber-600 dark:bg-amber-600 dark:hover:bg-amber-700 text-white font-bold w-full sm:w-auto text-xs px-4"
+       >
+         Enable Alerts
+       </Button>
+       <button 
+         onClick={handleDismissPushBanner}
+         className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all absolute top-2 right-2 sm:static"
+       >
+         <CloseIcon className="w-4 h-4" />
+       </button>
+     </div>
+   </Card>
+ )}
 
   {isLoading ? (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

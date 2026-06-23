@@ -162,6 +162,15 @@ export class BudgetService {
       }
     }
 
+    // Compute projection progression factors
+    const today = new Date();
+    const totalMs = endOfDay.getTime() - startOfDay.getTime();
+    const elapsedMs = Math.max(0, Math.min(totalMs, today.getTime() - startOfDay.getTime()));
+    
+    // Only extrapolate if budget has run for at least 12 hours to avoid extreme noise/early spikes
+    const useExtrapolation = elapsedMs >= 12 * 60 * 60 * 1000;
+    const elapsedFraction = useExtrapolation ? (elapsedMs / totalMs) : 1;
+
     // Compute totalAmount in base currency by converting each category allocation
     let totalAmountInBase = 0;
     const categoriesUsage = await Promise.all(
@@ -171,6 +180,11 @@ export class BudgetService {
         const spent = categorySpendingInCatCurrency[bc.categoryId] || 0;
         const remaining = allocated - spent;
         const percentage = allocated > 0 ? (spent / allocated) * 100 : 0;
+
+        // Calculate projections
+        const projectedSpent = spent / elapsedFraction;
+        const projectedPercentage = allocated > 0 ? (projectedSpent / allocated) * 100 : 0;
+        const isProjectedOver = projectedSpent > allocated;
 
         // Convert allocated amount to base for summing overall total
         const allocatedInBase = await currencyService.convertAmount(allocated, catCurrency, baseCurrency);
@@ -186,7 +200,10 @@ export class BudgetService {
           allocated,
           spent,
           remaining,
-          percentage
+          percentage,
+          projectedSpent,
+          projectedPercentage,
+          isProjectedOver
         };
       })
     );
@@ -195,6 +212,10 @@ export class BudgetService {
     const storedTotal = Number(budget.totalAmount || 0);
     const effectiveTotal = totalAmountInBase > 0 ? totalAmountInBase : storedTotal;
     const overallPercentage = effectiveTotal > 0 ? (totalSpentInBase / effectiveTotal) * 100 : 0;
+
+    const overallProjectedSpent = totalSpentInBase / elapsedFraction;
+    const overallProjectedPercentage = effectiveTotal > 0 ? (overallProjectedSpent / effectiveTotal) * 100 : 0;
+    const overallIsProjectedOver = overallProjectedSpent > effectiveTotal;
 
     return {
       budgetId: budget.id,
@@ -207,6 +228,11 @@ export class BudgetService {
       remainingAmount: effectiveTotal - totalSpentInBase,
       remaining: effectiveTotal - totalSpentInBase,
       percentage: overallPercentage,
+      projectedSpent: overallProjectedSpent,
+      projectedPercentage: overallProjectedPercentage,
+      isProjectedOver: overallIsProjectedOver,
+      elapsedFraction,
+      useExtrapolation,
       categories: categoriesUsage
     };
   }

@@ -89,6 +89,10 @@ export function useBudgetUsage(budgetId: string) {
         spent: number;
         remaining: number;
         percentage: number;
+        projectedSpent?: number;
+        projectedPercentage?: number;
+        isProjectedOver?: boolean;
+        useExtrapolation?: boolean;
         categories: Array<{
           categoryId: string;
           name: string;
@@ -98,6 +102,9 @@ export function useBudgetUsage(budgetId: string) {
           percentage: number;
           color: string;
           icon: string;
+          projectedSpent?: number;
+          projectedPercentage?: number;
+          isProjectedOver?: boolean;
         }>;
       };
     },

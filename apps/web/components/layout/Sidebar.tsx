@@ -22,7 +22,8 @@ import {
   LogOut,
   X,
   Globe,
-  Tags
+  Tags,
+  BookOpen
 } from 'lucide-react';
 
 export default function Sidebar() {
@@ -33,8 +34,8 @@ export default function Sidebar() {
   const navItems = [
     { label: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
     { label: 'Accounts', href: '/accounts', icon: Wallet },
-    { label: 'Transactions', href: '/transactions', icon: ArrowLeftRight },
     { label: 'Budgets', href: '/budgets', icon: PieChart },
+    { label: 'Transactions', href: '/transactions', icon: ArrowLeftRight },
     { label: 'Categories', href: '/categories', icon: Tags },
     { label: 'Savings Goals', href: '/goals', icon: Target },
     { label: 'Debts', href: '/debts', icon: TrendingDown },
@@ -42,6 +43,7 @@ export default function Sidebar() {
     { label: 'Calendar', href: '/calendar', icon: Calendar },
     { label: 'Reports', href: '/reports', icon: BarChart3 },
     { label: 'Exchange Rates', href: '/currency', icon: Globe },
+    { label: 'Documentation', href: '/docs', icon: BookOpen },
     { label: 'Settings', href: '/profile', icon: Settings },
   ];
 

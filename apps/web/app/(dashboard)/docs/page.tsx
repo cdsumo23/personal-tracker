@@ -27,6 +27,7 @@ import {
   Plus,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useAuthStore } from '@/store/auth.store';
 
 /* ─────────────── Reusable primitives ─────────────── */
 
@@ -542,16 +543,22 @@ const SECTIONS = [
 /* ─────────────── Page component ─────────────── */
 
 export default function DocsPage() {
+  const user = useAuthStore((state) => state.user);
+  const isAdmin = user?.role === 'ADMIN';
+
   const [searchQuery, setSearchQuery] = React.useState('');
   const [selectedId, setSelectedId] = React.useState('settings');
 
-  const filtered = SECTIONS.filter(
+  // Only show the admin section to users with the ADMIN role
+  const visibleSections = SECTIONS.filter((s) => s.id !== 'admin' || isAdmin);
+
+  const filtered = visibleSections.filter(
     (s) =>
       s.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       s.description.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const active = SECTIONS.find((s) => s.id === selectedId) || SECTIONS[0];
+  const active = visibleSections.find((s) => s.id === selectedId) || visibleSections[0];
 
   // Group nav items by category
   const groups = filtered.reduce<Record<string, typeof SECTIONS>>((acc, s) => {
@@ -662,9 +669,9 @@ export default function DocsPage() {
             {/* Footer nav */}
             <div className="mt-8 pt-5 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
               {(() => {
-                const idx = SECTIONS.findIndex((s) => s.id === selectedId);
-                const prev = SECTIONS[idx - 1];
-                const next = SECTIONS[idx + 1];
+                const idx = visibleSections.findIndex((s) => s.id === selectedId);
+                const prev = visibleSections[idx - 1];
+                const next = visibleSections[idx + 1];
                 return (
                   <>
                     {prev ? (

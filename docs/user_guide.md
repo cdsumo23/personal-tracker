@@ -1,6 +1,6 @@
 # Smart Planner User Documentation & Guide
 
-Welcome to the **Smart Planner** user manual. This document will guide you step-by-step through setting up your workspace, managing accounts, logging transactions, budgeting with predictions, and keeping track of your bills and savings.
+Welcome to the **Smart Planner** user manual. This document will guide you step-by-step through setting up your workspace, managing accounts, budgeting with predictions, logging transactions, and keeping track of your bills and savings.
 
 ---
 
@@ -8,8 +8,8 @@ Welcome to the **Smart Planner** user manual. This document will guide you step-
 1. [Settings & Profile Setup](#1-settings--profile-setup)
 2. [Managing Accounts](#2-managing-accounts)
 3. [Customizing Categories](#3-customizing-categories)
-4. [The Transactions Ledger](#4-the-transactions-ledger)
-5. [Predictive Budgets](#5-predictive-budgets)
+4. [Predictive Budgets](#4-predictive-budgets)
+5. [The Transactions Ledger](#5-the-transactions-ledger)
 6. [Savings Goals Tracker](#6-savings-goals-tracker)
 7. [Debts & Liabilities](#7-debts--liabilities)
 8. [Bills & Push Notifications](#8-bills--push-notifications)
@@ -90,32 +90,7 @@ Categories help organize your income and expenses into distinct buckets (e.g., "
 
 ---
 
-## 4. The Transactions Ledger
-
-The Transactions page is the central journal of all your incoming and outgoing funds.
-
-### Creating a Transaction
-1. Click the **+ Add Transaction** button.
-2. Specify the following details:
-   * **Type:** Choose `Expense` (money leaving), `Income` (money arriving), or `Transfer` (money moving between your own accounts).
-   * **Amount:** The financial value.
-   * **Account:** The account affected. (For Transfers, you will select both a **From Account** and a **To Account**).
-   * **Category:** Choose a category (not applicable for Transfers).
-   * **Date:** Select the transaction date.
-   * **Description:** A short title (e.g., "Groceries at Safeway").
-   * **Notes:** Additional description details.
-   * **Tags:** Optional tags separated by commas (e.g., `vacation, summer-2026`).
-   * **Recurring Toggle:** Mark the transaction as recurring to automate future repeats. Select an interval (`Daily`, `Weekly`, `Monthly`, `Yearly`).
-
-### Transaction Actions
-* **Search:** Filter your list by searching for text matches in the description, notes, or tags.
-* **Filters:** Drill down your transaction list by Account, Category, Type, or Date Range.
-* **Duplicate:** Quickly copy an existing transaction to save time when logging repeating expenses.
-* **Edit/Delete:** Update fields or remove a transaction entirely using the actions at the end of each row.
-
----
-
-## 5. Predictive Budgets
+## 4. Predictive Budgets
 
 Budgets help you set spending limits for specific categories over a set period. Smart Planner implements a predictive forecasting engine to warn you of future overspending before it occurs.
 
@@ -140,6 +115,31 @@ Each budget uses a dual progress bar to show actual vs. projected spending:
 
 ### Auto-Expiry
 * Active budgets whose end dates pass are automatically set to `Inactive` by the system, ensuring they do not clutter current dashboards or interfere with active spending tracking.
+
+---
+
+## 5. The Transactions Ledger
+
+The Transactions page is the central journal of all your incoming and outgoing funds.
+
+### Creating a Transaction
+1. Click the **+ Add Transaction** button.
+2. Specify the following details:
+   * **Type:** Choose `Expense` (money leaving), `Income` (money arriving), or `Transfer` (money moving between your own accounts).
+   * **Amount:** The financial value.
+   * **Account:** The account affected. (For Transfers, you will select both a **From Account** and a **To Account**).
+   * **Category:** Choose a category (not applicable for Transfers).
+   * **Date:** Select the transaction date.
+   * **Description:** A short title (e.g., "Groceries at Safeway").
+   * **Notes:** Additional description details.
+   * **Tags:** Optional tags separated by commas (e.g., `vacation, summer-2026`).
+   * **Recurring Toggle:** Mark the transaction as recurring to automate future repeats. Select an interval (`Daily`, `Weekly`, `Monthly`, `Yearly`).
+
+### Transaction Actions
+* **Search:** Filter your list by searching for text matches in the description, notes, or tags.
+* **Filters:** Drill down your transaction list by Account, Category, Type, or Date Range.
+* **Duplicate:** Quickly copy an existing transaction to save time when logging repeating expenses.
+* **Edit/Delete:** Update fields or remove a transaction entirely using the actions at the end of each row.
 
 ---
 

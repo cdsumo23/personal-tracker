@@ -45,19 +45,17 @@ export default function BillsPage() {
  const push = usePushNotifications();
  const [showPushBanner, setShowPushBanner] = React.useState(false);
 
- React.useEffect(() => {
-   if (typeof window !== 'undefined') {
-     const dismissed = sessionStorage.getItem('dismissedBillPushBanner');
-     if (
-       !dismissed &&
-       push.isSupported &&
-       !push.isSubscribed &&
-       push.permission !== 'denied'
-     ) {
-       setShowPushBanner(true);
-     }
-   }
- }, [push.isSupported, push.isSubscribed, push.permission]);
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const dismissed = sessionStorage.getItem('dismissedBillPushBanner');
+      const shouldShow =
+        !dismissed &&
+        push.isSupported &&
+        !push.isSubscribed &&
+        push.permission !== 'denied';
+      setShowPushBanner(shouldShow);
+    }
+  }, [push.isSupported, push.isSubscribed, push.permission]);
 
  const handleDismissPushBanner = () => {
    sessionStorage.setItem('dismissedBillPushBanner', 'true');

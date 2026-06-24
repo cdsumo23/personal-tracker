@@ -26,6 +26,7 @@ export interface LoginData {
   password: string;
   ipAddress?: string;
   userAgent?: string;
+  rememberMe?: boolean;
 }
 
 export interface AuthTokens {
@@ -140,7 +141,7 @@ export class AuthService {
       userAgent: data.userAgent,
     });
 
-    const tokens = await this._generateAndStoreTokens(user);
+    const tokens = await this._generateAndStoreTokens(user, data.rememberMe ? '30d' : undefined);
 
     const { passwordHash: _, emailVerificationToken: __, passwordResetToken: ___, ...safeUser } = user;
     return { user: safeUser, tokens };
@@ -317,7 +318,10 @@ export class AuthService {
   // Private helpers
   // ─────────────────────────────────────────────
 
-  private async _generateAndStoreTokens(user: { id: string; email: string; role: string }): Promise<AuthTokens> {
+  private async _generateAndStoreTokens(
+    user: { id: string; email: string; role: string },
+    expiresIn?: string
+  ): Promise<AuthTokens> {
     const accessToken = generateAccessToken({
       userId: user.id,
       email: user.email,
@@ -325,7 +329,7 @@ export class AuthService {
     });
 
     const refreshToken = generateRefreshToken({ userId: user.id, tokenId: '' });
-    const expiresAt = getExpiryDate(config.REFRESH_TOKEN_EXPIRES_IN);
+    const expiresAt = getExpiryDate(expiresIn || config.REFRESH_TOKEN_EXPIRES_IN);
 
     await authRepository.createRefreshToken(user.id, refreshToken, expiresAt);
 

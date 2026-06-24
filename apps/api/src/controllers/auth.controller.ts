@@ -20,7 +20,7 @@ export class AuthController {
       res.cookie('refreshToken', tokens.refreshToken, {
         httpOnly: true,
         secure: config.NODE_ENV === 'production',
-        sameSite: 'strict',
+        sameSite: config.NODE_ENV === 'production' ? 'none' : 'strict',
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
       });
 
@@ -35,19 +35,25 @@ export class AuthController {
    */
   async login(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const { email, password } = req.body;
+      const { email, password, rememberMe } = req.body;
       const { user, tokens } = await authService.login({
         email,
         password,
+        rememberMe,
         ipAddress: req.ip,
         userAgent: req.headers['user-agent'],
       });
 
+      // If rememberMe is selected, extend cookie/token life to 30 days, otherwise 7 days
+      const cookieMaxAge = rememberMe
+        ? 30 * 24 * 60 * 60 * 1000  // 30 days
+        : 7 * 24 * 60 * 60 * 1000;  // 7 days
+
       res.cookie('refreshToken', tokens.refreshToken, {
         httpOnly: true,
         secure: config.NODE_ENV === 'production',
-        sameSite: 'strict',
-        maxAge: 7 * 24 * 60 * 60 * 1000,
+        sameSite: config.NODE_ENV === 'production' ? 'none' : 'strict',
+        maxAge: cookieMaxAge,
       });
 
       successResponse(res, { user, accessToken: tokens.accessToken }, 'Login successful');
@@ -90,8 +96,8 @@ export class AuthController {
       res.cookie('refreshToken', tokens.refreshToken, {
         httpOnly: true,
         secure: config.NODE_ENV === 'production',
-        sameSite: 'strict',
-        maxAge: 7 * 24 * 60 * 60 * 1000,
+        sameSite: config.NODE_ENV === 'production' ? 'none' : 'strict',
+        maxAge: 30 * 24 * 60 * 60 * 1000, // preserve long session on rotation
       });
 
       successResponse(res, { accessToken: tokens.accessToken }, 'Token refreshed successfully');

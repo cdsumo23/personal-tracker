@@ -4,7 +4,23 @@ import { currencyService } from './currency.service';
 import prisma from '../config/database';
 
 export class BudgetService {
+  async autoExpireBudgets(userId?: string) {
+    const now = new Date();
+    await prisma.budget.updateMany({
+      where: {
+        ...(userId ? { userId } : {}),
+        isActive: true,
+        deletedAt: null,
+        endDate: { lt: now }
+      },
+      data: {
+        isActive: false
+      }
+    });
+  }
+
   async getAll(userId: string) {
+    await this.autoExpireBudgets(userId);
     const budgets = await budgetRepository.findAll(userId);
     const userRecord = await prisma.user.findUnique({ where: { id: userId }, select: { currency: true } });
     const baseCurrency = userRecord?.currency || 'USD';
@@ -25,6 +41,7 @@ export class BudgetService {
   }
 
   async getById(id: string, userId: string) {
+    await this.autoExpireBudgets(userId);
     const budget = await budgetRepository.findById(id, userId);
     if (!budget) throw new Error('Budget not found');
     

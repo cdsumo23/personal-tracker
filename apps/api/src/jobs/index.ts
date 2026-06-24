@@ -6,6 +6,7 @@ import { processBudgetAlerts } from './budgetAlerts.job';
 import { processMonthlyReports } from './monthlyReport.job';
 import { processSavingsContributions } from './savingsUpdate.job';
 import { currencyService } from '../services/currency.service';
+import { budgetService } from '../services/budget.service';
 import logger from '../config/logger';
 
 export function startBackgroundJobs(): void {
@@ -14,6 +15,11 @@ export function startBackgroundJobs(): void {
   // 1. Daily midnight jobs (0 0 * * *)
   cron.schedule('0 0 * * *', async () => {
     logger.info('Triggering daily scheduled tasks...');
+    try {
+      await budgetService.autoExpireBudgets();
+    } catch (err: any) {
+      logger.error('Error auto-expiring budgets:', err.message);
+    }
     await processRecurringTransactions();
     await processBillReminders();
     await processBudgetAlerts();
